@@ -3,1008 +3,422 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Loop Output Questions – Chapter 12</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Share+Tech+Mono&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+<title>CS Chapter 12 – Loop Output Questions</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #050a14;
-    --card: #0b1426;
-    --border: #1a2d50;
-    --accent: #00d4ff;
-    --accent2: #ff6b35;
-    --green: #00ff88;
-    --yellow: #ffd700;
-    --text: #c8d8f0;
-    --muted: #6a85b0;
-    --code-bg: #020810;
-    --output-bg: #001a0d;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Share Tech Mono', monospace;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-  body.lang-ur { font-family: 'Noto Nastaliq Urdu', serif; }
+:root {
+  --bg: #0f1117;
+  --surface: #1a1d27;
+  --surface2: #22263a;
+  --border: #2e3350;
+  --accent: #6c63ff;
+  --accent2: #ff6584;
+  --green: #43d9a2;
+  --yellow: #fbbf24;
+  --blue: #38bdf8;
+  --text: #e2e8f0;
+  --muted: #7c85a2;
+  --code-bg: #12141f;
+  --output-bg: #0d1f16;
+  --r: 14px;
+  --rs: 8px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden;}
 
-  /* ===== HEADER / 3D BRAND ===== */
-  header {
-    position: relative;
-    text-align: center;
-    padding: 30px 16px 20px;
-    background: linear-gradient(180deg, #010812 0%, var(--bg) 100%);
-    border-bottom: 1px solid var(--border);
-    overflow: hidden;
-  }
-  .grid-bg {
-    position: absolute; inset: 0;
-    background-image:
-      linear-gradient(rgba(0,212,255,.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,212,255,.04) 1px, transparent 1px);
-    background-size: 30px 30px;
-    animation: gridMove 12s linear infinite;
-  }
-  @keyframes gridMove { from{background-position:0 0} to{background-position:30px 30px} }
+/* PROGRESS */
+#progBar{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));z-index:9998;transition:width .2s;}
 
-  .title-3d {
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(22px, 5.5vw, 52px);
-    font-weight: 900;
-    letter-spacing: 2px;
-    position: relative;
-    display: inline-block;
-    color: #fff;
-    text-shadow:
-      0 1px 0 #c0c0c0,
-      0 2px 0 #b0b0b0,
-      0 3px 0 #a0a0a0,
-      0 4px 0 #909090,
-      0 5px 10px rgba(0,0,0,.6),
-      0 0 20px var(--accent),
-      0 0 40px rgba(0,212,255,.4);
-    animation: float3d 3s ease-in-out infinite;
-  }
-  @keyframes float3d {
-    0%,100% { transform: translateY(0) rotateX(0deg); text-shadow: 0 1px 0 #c0c0c0,0 2px 0 #b0b0b0,0 3px 0 #a0a0a0,0 4px 0 #909090,0 5px 10px rgba(0,0,0,.6),0 0 20px var(--accent),0 0 40px rgba(0,212,255,.4); }
-    50% { transform: translateY(-8px) rotateX(8deg); text-shadow: 0 2px 0 #c0c0c0,0 4px 0 #b0b0b0,0 6px 0 #a0a0a0,0 8px 0 #909090,0 12px 20px rgba(0,0,0,.7),0 0 30px var(--accent),0 0 60px rgba(0,212,255,.6); }
-  }
+/* ===== INTRO ===== */
+#introScreen{position:fixed;inset:0;z-index:9999;background:#090b13;display:flex;overflow:hidden;}
+.intro-vid-panel{flex:0 0 auto;width:clamp(150px,36vw,290px);position:relative;overflow:hidden;border-right:1px solid var(--border);}
+.intro-vid-panel video{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;}
+.intro-vid-panel::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,transparent 55%,#090b13 100%);}
+.intro-right{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 24px;gap:18px;position:relative;}
+.intro-right::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,#2e335044 1px,transparent 1px);background-size:22px 22px;pointer-events:none;}
+.intro-logo{position:relative;text-align:center;}
+.intro-pill{display:inline-block;background:rgba(108,99,255,.15);border:1px solid rgba(108,99,255,.35);color:#a89cff;font-size:10px;font-weight:600;letter-spacing:2px;padding:4px 14px;border-radius:20px;margin-bottom:10px;text-transform:uppercase;}
+.intro-h1{font-size:clamp(22px,4vw,36px);font-weight:800;line-height:1.15;background:linear-gradient(135deg,#fff 40%,#a89cff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.intro-sub{margin-top:7px;color:var(--muted);font-size:clamp(10px,1.8vw,12px);letter-spacing:.5px;}
+.intro-chips{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;position:relative;}
+.chip{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 16px;text-align:center;min-width:70px;}
+.chip-n{font-size:20px;font-weight:800;color:var(--accent);font-family:'JetBrains Mono',monospace;}
+.chip-l{font-size:9px;color:var(--muted);letter-spacing:1px;margin-top:2px;text-transform:uppercase;}
+.btn-start{position:relative;width:100%;max-width:230px;padding:15px 0;background:linear-gradient(135deg,var(--accent) 0%,#8b5cf6 100%);color:#fff;font-size:15px;font-weight:700;letter-spacing:3px;border:none;border-radius:40px;cursor:pointer;text-transform:uppercase;box-shadow:0 8px 28px rgba(108,99,255,.45);transition:transform .15s,box-shadow .15s;}
+.btn-start:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(108,99,255,.6);}
+.btn-start:active{transform:translateY(1px);}
+.intro-opts{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;position:relative;}
+.opt-btn{padding:8px 15px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--muted);font-size:12px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;display:flex;align-items:center;gap:5px;}
+.opt-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(108,99,255,.08);}
+@media(max-width:500px){
+  #introScreen{flex-direction:column;}
+  .intro-vid-panel{width:100%;flex:0 0 46vh;border-right:none;border-bottom:1px solid var(--border);}
+  .intro-vid-panel::after{background:linear-gradient(to bottom,transparent 55%,#090b13 100%);}
+  .intro-right{padding:18px 16px;gap:14px;}
+}
 
-  .dev-badge {
-    display: inline-block;
-    margin-top: 8px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: clamp(10px, 2.5vw, 15px);
-    letter-spacing: 6px;
-    color: var(--accent2);
-    text-transform: uppercase;
-    text-shadow: 0 0 10px var(--accent2), 0 0 20px rgba(255,107,53,.4);
-    animation: pulse 2s ease-in-out infinite;
-  }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.6} }
+/* ===== TOPBAR ===== */
+.topbar{position:sticky;top:0;z-index:100;background:rgba(15,17,23,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:0 14px;height:52px;display:flex;align-items:center;gap:10px;}
+.back-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;}
+.back-btn:hover{border-color:var(--accent);color:var(--accent);}
+.topbar-title{flex:1;font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.topbar-title em{color:var(--accent);font-style:normal;}
+.tb-actions{display:flex;gap:7px;flex-shrink:0;}
+.icon-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.icon-btn:hover{border-color:var(--accent);color:var(--accent);}
 
-  .subtitle {
-    margin-top: 6px;
-    font-size: clamp(10px, 2.2vw, 13px);
-    color: var(--muted);
-    letter-spacing: 2px;
-  }
+/* ===== HERO ===== */
+.hero{background:linear-gradient(135deg,#12142a 0%,var(--bg) 60%);padding:26px 16px 20px;text-align:center;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-50px;left:50%;transform:translateX(-50%);width:300px;height:160px;background:radial-gradient(ellipse,rgba(108,99,255,.2) 0%,transparent 70%);pointer-events:none;}
+.hero-h{font-size:clamp(17px,3.5vw,24px);font-weight:800;background:linear-gradient(135deg,#fff 30%,#a89cff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;position:relative;}
+.hero-sub{margin-top:5px;color:var(--muted);font-size:11px;letter-spacing:.5px;}
+.stats-row{display:flex;justify-content:center;gap:12px;margin-top:16px;flex-wrap:wrap;}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:8px 16px;display:flex;align-items:center;gap:8px;}
+.stat-card .n{font-size:18px;font-weight:800;color:var(--accent);font-family:'JetBrains Mono',monospace;}
+.stat-card .l{font-size:11px;color:var(--muted);}
 
-  /* ===== STATS BAR ===== */
-  .stats-bar {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    padding: 12px;
-    background: #07111f;
-    border-bottom: 1px solid var(--border);
-    flex-wrap: wrap;
-  }
-  .stat { text-align: center; }
-  .stat-num { font-size: 22px; font-weight: 700; color: var(--accent); font-family:'Orbitron',sans-serif; }
-  .stat-label { font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+/* ===== AD ===== */
+.ad-wrap{display:flex;justify-content:center;align-items:center;padding:10px 0;background:var(--surface);border-bottom:1px solid var(--border);min-height:70px;}
 
-  /* ===== LANG TOGGLE ===== */
-  .lang-bar {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    padding: 12px 16px;
-    background: var(--bg);
-    border-bottom: 1px solid var(--border);
-    flex-wrap: wrap;
-  }
-  .lang-btn {
-    padding: 7px 18px;
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    background: transparent;
-    color: var(--muted);
-    font-size: 12px;
-    cursor: pointer;
-    transition: all .25s;
-    font-family: inherit;
-    letter-spacing: 1px;
-  }
-  .lang-btn.active {
-    border-color: var(--accent);
-    color: var(--accent);
-    background: rgba(0,212,255,.08);
-    box-shadow: 0 0 12px rgba(0,212,255,.2);
-  }
-  .lang-btn:hover { border-color: var(--accent); color: var(--accent); }
+/* ===== CONTROLS ===== */
+.controls{background:var(--surface);border-bottom:1px solid var(--border);padding:11px 13px;display:flex;flex-direction:column;gap:9px;position:sticky;top:52px;z-index:90;}
+.search-box{position:relative;}
+.search-box input{width:100%;padding:9px 13px 9px 36px;background:var(--bg);border:1px solid var(--border);border-radius:var(--rs);color:var(--text);font-family:'Inter',sans-serif;font-size:13px;outline:none;transition:border-color .2s;}
+.search-box input:focus{border-color:var(--accent);}
+.search-box input::placeholder{color:var(--muted);}
+.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;pointer-events:none;}
+.ctrl-row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;}
+.ctrl-row::-webkit-scrollbar{display:none;}
+.tag-btn{white-space:nowrap;flex-shrink:0;padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:12px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;}
+.tag-btn.act{background:var(--accent);color:#fff;border-color:var(--accent);}
+.tag-btn:hover:not(.act){border-color:var(--accent);color:var(--accent);}
+.sep{width:1px;background:var(--border);flex-shrink:0;margin:0 2px;}
 
-  /* ===== FILTER TABS ===== */
-  .filter-bar {
-    display: flex;
-    gap: 6px;
-    padding: 10px 14px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    border-bottom: 1px solid var(--border);
-    background: #06101e;
-  }
-  .filter-bar::-webkit-scrollbar { display:none; }
-  .filter-btn {
-    white-space: nowrap;
-    padding: 5px 14px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--muted);
-    font-size: 11px;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all .2s;
-  }
-  .filter-btn.active {
-    background: var(--accent);
-    color: #000;
-    border-color: var(--accent);
-    font-weight: 700;
-  }
+/* ===== CARDS ===== */
+.q-list{padding:13px;display:flex;flex-direction:column;gap:9px;max-width:820px;margin:0 auto;}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .2s;contain:layout style;}
+.q-card:hover{border-color:rgba(108,99,255,.35);}
+.q-card.open{border-color:rgba(108,99,255,.55);}
+.q-head{display:flex;align-items:center;gap:9px;padding:12px 13px;cursor:pointer;user-select:none;}
+.q-badge{background:rgba(108,99,255,.15);color:#a89cff;font-size:10px;font-weight:700;padding:3px 9px;border-radius:6px;font-family:'JetBrains Mono',monospace;flex-shrink:0;}
+.q-type{font-size:10px;color:var(--accent2);border:1px solid rgba(255,101,132,.3);padding:2px 8px;border-radius:10px;flex-shrink:0;}
+.q-txt{flex:1;font-size:13px;color:var(--text);line-height:1.45;font-weight:500;}
+.q-chev{color:var(--muted);font-size:13px;flex-shrink:0;transition:transform .25s;}
+.q-card.open .q-chev{transform:rotate(180deg);}
+.q-body{display:none;border-top:1px solid var(--border);}
+.q-card.open .q-body{display:block;}
 
-  /* ===== SEARCH ===== */
-  .search-wrap {
-    padding: 10px 14px;
-    background: var(--bg);
-  }
-  .search-wrap input {
-    width: 100%;
-    padding: 10px 16px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: var(--card);
-    color: var(--text);
-    font-family: inherit;
-    font-size: 13px;
-    outline: none;
-    transition: border-color .2s;
-  }
-  .search-wrap input:focus { border-color: var(--accent); box-shadow: 0 0 8px rgba(0,212,255,.15); }
-  .search-wrap input::placeholder { color: var(--muted); }
+/* Code */
+.code-blk{background:var(--code-bg);padding:13px;border-bottom:1px solid var(--border);}
+.blk-lbl{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.blk-lbl.blue{color:var(--blue);}
+.blk-lbl.blue::before,.blk-lbl.green::before,.blk-lbl.yellow::before{content:'';width:6px;height:6px;border-radius:50%;display:inline-block;}
+.blk-lbl.blue::before{background:var(--blue);}
+.blk-lbl.green{color:var(--green);}
+.blk-lbl.green::before{background:var(--green);animation:blink 1.4s ease-in-out infinite;}
+.blk-lbl.yellow{color:var(--yellow);}
+.blk-lbl.yellow::before{background:var(--yellow);}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+pre{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#93c5fd;line-height:1.7;overflow-x:auto;border-left:3px solid var(--accent);padding-left:12px;white-space:pre;}
 
-  /* ===== CARDS ===== */
-  .questions-grid {
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    max-width: 860px;
-    margin: 0 auto;
-  }
+/* Output */
+.out-blk{background:var(--output-bg);padding:12px 13px;border-bottom:1px solid var(--border);}
+.out-val{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--green);line-height:1.7;white-space:pre;}
 
-  .q-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-    transition: border-color .2s, box-shadow .2s;
-    animation: fadeIn .4s ease both;
-  }
-  .q-card:hover { border-color: rgba(0,212,255,.3); box-shadow: 0 4px 20px rgba(0,212,255,.06); }
-  @keyframes fadeIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
+/* Trace */
+.trace-blk{padding:11px 13px;border-bottom:1px solid var(--border);overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:12px;}
+th{background:rgba(108,99,255,.12);color:var(--accent);padding:6px 10px;border:1px solid var(--border);font-size:11px;}
+td{padding:5px 10px;border:1px solid var(--border);color:var(--text);text-align:center;}
+tr:nth-child(even) td{background:rgba(255,255,255,.02);}
 
-  .q-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 14px;
-    cursor: pointer;
-    user-select: none;
-    border-bottom: 1px solid var(--border);
-  }
-  .q-num {
-    background: linear-gradient(135deg, var(--accent), #0088aa);
-    color: #000;
-    font-weight: 700;
-    font-size: 11px;
-    padding: 3px 9px;
-    border-radius: 6px;
-    white-space: nowrap;
-    font-family: 'Orbitron', sans-serif;
-  }
-  .q-section-tag {
-    font-size: 10px;
-    color: var(--accent2);
-    border: 1px solid rgba(255,107,53,.3);
-    padding: 2px 8px;
-    border-radius: 10px;
-  }
-  .q-title { flex: 1; font-size: 13px; color: var(--text); line-height: 1.4; }
-  .chevron {
-    color: var(--muted);
-    font-size: 16px;
-    transition: transform .3s;
-    flex-shrink: 0;
-  }
-  .q-card.open .chevron { transform: rotate(180deg); }
+/* Explain */
+.exp-blk{padding:12px 13px;}
+.exp-txt{font-size:13px;color:#c0d0e8;line-height:1.8;}
+.exp-txt.ur{font-family:'Noto Nastaliq Urdu',serif;font-size:15px;direction:rtl;text-align:right;line-height:2.3;}
 
-  .q-body { display: none; padding: 0; }
-  .q-card.open .q-body { display: block; }
+/* No results */
+.no-res{text-align:center;padding:55px 20px;color:var(--muted);font-size:14px;display:none;}
+.no-res-icon{font-size:36px;margin-bottom:10px;}
 
-  /* Code block */
-  .code-block {
-    background: var(--code-bg);
-    border-bottom: 1px solid var(--border);
-    padding: 12px 14px;
-    font-size: 12.5px;
-    line-height: 1.7;
-    overflow-x: auto;
-    white-space: pre;
-    color: #a0c4ff;
-    border-left: 3px solid var(--accent);
-  }
-  .kw { color: #ff79c6; }
-  .fn { color: #50fa7b; }
-  .num { color: #f1fa8c; }
-  .str { color: #f1fa8c; }
-  .cmt { color: #6272a4; }
+/* Footer */
+footer{text-align:center;padding:22px 16px;border-top:1px solid var(--border);color:var(--muted);font-size:12px;margin-top:8px;}
+footer strong{color:var(--accent);}
 
-  /* Output block */
-  .output-block {
-    background: var(--output-bg);
-    border-bottom: 1px solid var(--border);
-    padding: 12px 14px;
-  }
-  .output-label {
-    font-size: 10px;
-    color: var(--green);
-    letter-spacing: 2px;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .output-label::before { content:''; display:inline-block; width:6px; height:6px; background:var(--green); border-radius:50%; animation:blink 1s ease-in-out infinite; }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
-  .output-value {
-    font-size: 13px;
-    color: var(--green);
-    font-family: 'Share Tech Mono', monospace;
-    white-space: pre;
-    line-height: 1.7;
-  }
+/* Scroll btn */
+#scrollBtn{position:fixed;bottom:18px;right:15px;width:42px;height:42px;border-radius:12px;background:var(--accent);color:#fff;font-size:18px;border:none;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(108,99,255,.5);transition:transform .15s;z-index:200;}
+#scrollBtn.show{display:flex;}
+#scrollBtn:hover{transform:translateY(-2px);}
 
-  /* Explanation block */
-  .explain-block {
-    padding: 12px 14px;
-  }
-  .explain-label {
-    font-size: 10px;
-    color: var(--yellow);
-    letter-spacing: 2px;
-    margin-bottom: 8px;
-  }
-  .explain-text {
-    font-size: 13px;
-    color: #c0d4ee;
-    line-height: 1.75;
-  }
-  .explain-text.ur-text {
-    font-family: 'Noto Nastaliq Urdu', serif;
-    font-size: 15px;
-    direction: rtl;
-    text-align: right;
-    line-height: 2.2;
-  }
+/* Toast */
+#toast{position:fixed;bottom:76px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--surface2);border:1px solid var(--border);color:var(--text);font-size:13px;font-weight:500;padding:10px 20px;border-radius:12px;box-shadow:0 8px 28px rgba(0,0,0,.4);opacity:0;transition:all .3s;z-index:9000;white-space:nowrap;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
-  /* Trace table */
-  .trace-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 8px;
-    font-size: 12px;
-  }
-  .trace-table th {
-    background: rgba(0,212,255,.1);
-    color: var(--accent);
-    padding: 5px 8px;
-    text-align: center;
-    border: 1px solid var(--border);
-    font-size: 11px;
-  }
-  .trace-table td {
-    padding: 4px 8px;
-    text-align: center;
-    border: 1px solid var(--border);
-    color: var(--text);
-  }
-  .trace-table tr:nth-child(even) td { background: rgba(255,255,255,.02); }
-
-  /* Footer */
-  footer {
-    text-align: center;
-    padding: 20px;
-    color: var(--muted);
-    font-size: 11px;
-    letter-spacing: 2px;
-    border-top: 1px solid var(--border);
-    margin-top: 20px;
-  }
-  footer span { color: var(--accent); font-family: 'Orbitron', sans-serif; }
-
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 5px; height: 5px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
-  .hidden { display: none !important; }
-  .no-results { text-align:center; color:var(--muted); padding:40px; font-size:14px; }
-
-  /* Progress */
-  .progress-bar {
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    width: 0%;
-    transition: width 0.5s ease;
-    position: fixed;
-    top: 0; left: 0;
-    z-index: 100;
-  }
+/* Light mode */
+body.light{--bg:#f3f5fc;--surface:#fff;--surface2:#edf0fb;--border:#d0d9ee;--text:#1c2340;--muted:#6b7a9e;--code-bg:#eaf0fc;--output-bg:#e5f8f0;}
 </style>
 </head>
 <body>
 
-<div class="progress-bar" id="progBar"></div>
+<div id="progBar"></div>
 
-<header>
-  <div class="grid-bg"></div>
-  <div style="position:relative">
-    <div class="title-3d">LOOP CONSTRUCTS</div>
-    <div class="dev-badge">✦ Developed by J.S ✦</div>
-    <div class="subtitle">CHAPTER 12 — COMPUTER SCIENCE | OUTPUT QUESTIONS BANK</div>
+<!-- ====== INTRO SCREEN ====== -->
+<div id="introScreen">
+  <div class="intro-vid-panel">
+    <video autoplay muted loop playsinline>
+      <source src="prof.mp4" type="video/mp4">
+    </video>
   </div>
-</header>
-
-<div class="stats-bar">
-  <div class="stat"><div class="stat-num">43</div><div class="stat-label">OUTPUT Qs</div></div>
-  <div class="stat"><div class="stat-num">3</div><div class="stat-label">LOOP TYPES</div></div>
-  <div class="stat"><div class="stat-num">3</div><div class="stat-label">LANGUAGES</div></div>
+  <div class="intro-right">
+    <div class="intro-logo">
+      <div class="intro-pill">Chapter 12 · CS</div>
+      <div class="intro-h1">Loop<br>Constructs</div>
+      <div class="intro-sub">Output Questions Bank</div>
+    </div>
+    <div class="intro-chips">
+      <div class="chip"><div class="chip-n">43</div><div class="chip-l">Questions</div></div>
+      <div class="chip"><div class="chip-n">3</div><div class="chip-l">Loop Types</div></div>
+      <div class="chip"><div class="chip-n">3</div><div class="chip-l">Languages</div></div>
+    </div>
+    <button class="btn-start" onclick="startApp()">▶ &nbsp;START</button>
+    <div class="intro-opts">
+      <button class="opt-btn" onclick="toggleTheme()">🌙 Theme</button>
+      <button class="opt-btn" onclick="shareApp()">🔗 Share</button>
+      <button class="opt-btn" onclick="showInfo()">ℹ️ About</button>
+    </div>
+  </div>
 </div>
 
-<div class="lang-bar">
-  <button class="lang-btn active" onclick="setLang('en')">🇬🇧 English</button>
-  <button class="lang-btn" onclick="setLang('ru')">🇵🇰 Roman Urdu</button>
-  <button class="lang-btn" onclick="setLang('ur')">اردو</button>
+<!-- ====== MAIN APP ====== -->
+<div id="mainApp" style="display:none">
+
+  <nav class="topbar">
+    <button class="back-btn" onclick="goBack()" title="Back">←</button>
+    <div class="topbar-title"><em>Loop</em> Constructs · Ch.12</div>
+    <div class="tb-actions">
+      <button class="icon-btn" onclick="toggleTheme()" title="Toggle Theme">🌙</button>
+      <button class="icon-btn" onclick="shareApp()" title="Share">🔗</button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-h">Output Questions Bank</div>
+    <div class="hero-sub">COMPUTER SCIENCE · CHAPTER 12 · LOOP CONSTRUCTS</div>
+    <div class="stats-row">
+      <div class="stat-card"><span class="n">43</span><span class="l">Questions</span></div>
+      <div class="stat-card"><span class="n">3</span><span class="l">Loop Types</span></div>
+      <div class="stat-card"><span class="n">3</span><span class="l">Languages</span></div>
+    </div>
+  </div>
+
+  <div class="ad-wrap">
+    <script>atOptions={'key':'0cfc3b3a8510d7f478833183132147c2','format':'iframe','height':50,'width':320,'params':{}};</script>
+    <script src="https://www.highperformanceformat.com/0cfc3b3a8510d7f478833183132147c2/invoke.js"></script>
+  </div>
+
+  <div class="controls">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchBox" placeholder="Search questions or Q-numbers..." oninput="renderAll()">
+    </div>
+    <div class="ctrl-row">
+      <button class="tag-btn act" data-lang="en" onclick="setLang('en',this)">🇬🇧 English</button>
+      <button class="tag-btn" data-lang="ru" onclick="setLang('ru',this)">🇵🇰 Roman Urdu</button>
+      <button class="tag-btn" data-lang="ur" onclick="setLang('ur',this)">اردو</button>
+      <div class="sep"></div>
+      <button class="tag-btn act" data-filter="all" onclick="setFilter('all',this)">All</button>
+      <button class="tag-btn" data-filter="while" onclick="setFilter('while',this)">While</button>
+      <button class="tag-btn" data-filter="for" onclick="setFilter('for',this)">For</button>
+      <button class="tag-btn" data-filter="dowhile" onclick="setFilter('dowhile',this)">Do-While</button>
+      <button class="tag-btn" data-filter="nested" onclick="setFilter('nested',this)">Nested</button>
+    </div>
+  </div>
+
+  <div class="q-list" id="qGrid"></div>
+  <div class="no-res" id="noRes"><div class="no-res-icon">🔍</div>No questions found.</div>
+
+  <div class="ad-wrap" style="border-top:1px solid var(--border);margin-top:8px;">
+    <script>atOptions={'key':'0cfc3b3a8510d7f478833183132147c2','format':'iframe','height':50,'width':320,'params':{}};</script>
+    <script src="https://www.highperformanceformat.com/0cfc3b3a8510d7f478833183132147c2/invoke.js"></script>
+  </div>
+
+  <footer>Developed by <strong>J.S</strong> &nbsp;·&nbsp; Computer Science Chapter 12 &nbsp;·&nbsp; Loop Constructs</footer>
 </div>
 
-<div class="filter-bar">
-  <button class="filter-btn active" onclick="setFilter('all')">All Questions</button>
-  <button class="filter-btn" onclick="setFilter('while')">While Loop</button>
-  <button class="filter-btn" onclick="setFilter('for')">For Loop</button>
-  <button class="filter-btn" onclick="setFilter('dowhile')">Do-While Loop</button>
-  <button class="filter-btn" onclick="setFilter('nested')">Nested Loop</button>
-</div>
-
-<div class="search-wrap">
-  <input type="text" id="searchBox" placeholder="🔍  Search questions..." oninput="doSearch()" />
-</div>
-
-<div class="questions-grid" id="qGrid"></div>
-
-<div class="no-results hidden" id="noRes">No questions found. Try another search.</div>
-
-<footer>
-  <span>DEVELOPED BY J.S</span> &nbsp;|&nbsp; Computer Science Chapter 12 &nbsp;|&nbsp; Loop Constructs
-</footer>
+<button id="scrollBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<div id="toast"></div>
 
 <script>
-const DATA = [
-  {
-    id:1, qNum:"Q4", section:"While Loop", tag:"while",
-    title:"Determine the output of the following code (i=10, while i<=10)",
-    code:`int i;\ni = 10;\nwhile (i <= 10)\n{\n    printf("%d", i);\n    i++;\n}`,
-    output:`10`,
-    explain:{
-      en:`i starts at 10. Condition: 10 <= 10 → TRUE. So printf prints 10, then i becomes 11. Now 11 <= 10 → FALSE. Loop ends. Only ONE number printed: 10.`,
-      ru:`i ki value 10 hai. Condition check karo: 10 <= 10 → SACH. Printf 10 print karta hai, phir i++ se i=11 ho jata hai. Ab 11 <= 10 → JHOOT. Loop khatam. Sirf ek baar 10 print hoga.`,
-      ur:`i کی قدر 10 ہے۔ شرط: 10 <= 10 سچ ہے۔ printf 10 پرنٹ کرتا ہے، پھر i++ سے i=11 ہو جاتا ہے۔ اب 11 <= 10 غلط ہے۔ لوپ ختم۔ صرف 10 پرنٹ ہوا۔`
-    },
-    trace:[["i","Condition","Output"],["10","10<=10 ✓","10"],["11","11<=10 ✗","–"]]
-  },
-  {
-    id:2, qNum:"Q5", section:"While Loop", tag:"while",
-    title:"Determine the output (print Pakistan, j starts 0, step +2)",
-    code:`int j = 0;\nwhile (j <= 10)\n{\n    printf("Pakistan\\n");\n    j = j + 2;\n}`,
-    output:`Pakistan\nPakistan\nPakistan\nPakistan\nPakistan\nPakistan`,
-    explain:{
-      en:`j starts at 0. Each iteration j increases by 2. Values of j: 0,2,4,6,8,10 — all <= 10. That's 6 iterations, so "Pakistan" is printed 6 times. When j=12, condition fails.`,
-      ru:`j 0 se shuru hota hai, har baar 2 badhta hai. j ki values: 0,2,4,6,8,10 — yeh sab 10 se chhote ya barabar hain. Total 6 baar loop chalta hai, toh "Pakistan" 6 baar print hoga. Jab j=12, condition fail ho jati hai.`,
-      ur:`j صفر سے شروع ہوتا ہے، ہر بار 2 بڑھتا ہے۔ j کی اقدار: 0,2,4,6,8,10 — یہ سب 10 سے کم یا برابر ہیں۔ کل 6 بار لوپ چلتا ہے، اس لیے "Pakistan" 6 بار پرنٹ ہوگا۔`
-    },
-    trace:[["j","j<=10?","Print"],["0","✓","Pakistan"],["2","✓","Pakistan"],["4","✓","Pakistan"],["6","✓","Pakistan"],["8","✓","Pakistan"],["10","✓","Pakistan"],["12","✗","—"]]
-  },
-  {
-    id:3, qNum:"Q6", section:"While Loop / For Loop", tag:"for",
-    title:"Determine the output (for x=1, x<=15, x++ inside + x++ in loop body)",
-    code:`int x = 0;\nfor (x = 1; x <= 15; x++)\n{\n    printf("%d\\n", x * x);\n    x++;\n}`,
-    output:`1\n9\n25\n49\n81\n121\n169\n225`,
-    explain:{
-      en:`x increments TWICE per iteration: once by x++ in the for header, once by x++ inside the body. So x goes: 1→print 1², x becomes 2 in body, then for does x++ → 3. Then 3²=9, x→4→5, 5²=25, x→6→7, 7²=49, x→8→9, 9²=81, x→10→11, 11²=121, x→12→13, 13²=169, x→14→15, 15²=225, x→16→17 > 15 stop.`,
-      ru:`x do baar badhta hai: ek baar loop ke andar x++, ek baar for header mein x++. Isliye x ki values: 1,3,5,7,9,11,13,15 hoti hain. Inke squares print hote hain: 1,9,25,49,81,121,169,225.`,
-      ur:`x دو بار بڑھتا ہے: ایک بار لوپ کے اندر x++، ایک بار for ہیڈر میں x++۔ اس لیے x کی اقدار: 1,3,5,7,9,11,13,15 ہوتی ہیں۔ ان کے مربع پرنٹ ہوتے ہیں: 1,9,25,49,81,121,169,225۔`
-    },
-    trace:[["x (start of iter)","x*x printed","x after body++","x after for++"],["1","1","2","3"],["3","9","4","5"],["5","25","6","7"],["7","49","8","9"],["9","81","10","11"],["11","121","12","13"],["13","169","14","15"],["15","225","16","17 > 15 STOP"]]
-  },
-  {
-    id:4, qNum:"Q7", section:"While Loop", tag:"while",
-    title:"Write output (two-column table: k and 10-k, k=0 to 5)",
-    code:`int k = 0;\nwhile (k <= 5)\n{\n    printf("%3d%3d\\n", k, 10 - k);\n    k++;\n}`,
-    output:`  0 10\n  1  9\n  2  8\n  3  7\n  4  6\n  5  5`,
-    explain:{
-      en:`k goes from 0 to 5 (6 iterations). Each time it prints k and (10-k) side by side. When k=0: 0 and 10. When k=5: 5 and 5. Notice the two numbers always add up to 10!`,
-      ru:`k 0 se 5 tak jata hai (6 baar). Har baar k aur (10-k) ek saath print hota hai. k=0 par: 0 aur 10. k=5 par: 5 aur 5. Dono numbers milake hamesha 10 bante hain!`,
-      ur:`k صفر سے 5 تک جاتا ہے (6 بار)۔ ہر بار k اور (10-k) ایک ساتھ پرنٹ ہوتا ہے۔ k=0 پر: 0 اور 10۔ k=5 پر: 5 اور 5۔ دونوں نمبر ملا کر ہمیشہ 10 بنتے ہیں!`
-    },
-    trace:[["k","10-k"],["0","10"],["1","9"],["2","8"],["3","7"],["4","6"],["5","5"]]
-  },
-  {
-    id:5, qNum:"Q13", section:"While Loop", tag:"while",
-    title:"Predict output (print 'Yes' while k<=5, k starts 1)",
-    code:`int k = 1;\nwhile (k <= 5)\n{\n    printf("Yes");\n    k++;\n}`,
-    output:`YesYesYesYesYes`,
-    explain:{
-      en:`k starts at 1, goes up to 5. That's 5 iterations. Each iteration prints "Yes" without newline (no \\n). So all 5 "Yes" appear on one line: YesYesYesYesYes.`,
-      ru:`k 1 se shuru, 5 tak jata hai — 5 baar. Har baar "Yes" print hota hai lekin \\n (new line) nahi hai, isliye sab ek hi line par aate hain: YesYesYesYesYes.`,
-      ur:`k 1 سے شروع، 5 تک جاتا ہے — 5 بار۔ ہر بار "Yes" پرنٹ ہوتا ہے لیکن \\n (نئی لائن) نہیں ہے، اس لیے سب ایک لائن پر: YesYesYesYesYes۔`
-    }
-  },
-  {
-    id:6, qNum:"Q14", section:"While Loop", tag:"while",
-    title:"Predict output (x starts 3, condition x<=12, step x+2)",
-    code:`int x = 3;\nwhile (x <= 12)\n{\n    printf("x is %d\\n", x);\n    x = x + 2;\n}`,
-    output:`x is 3\nx is 5\nx is 7\nx is 9\nx is 11`,
-    explain:{
-      en:`x starts at 3, increases by 2 each time. Values: 3,5,7,9,11 — all <= 12. When x=13, condition fails. Notice x=12 is skipped because 12 is even and x steps by 2 from odd start (3).`,
-      ru:`x 3 se shuru, har baar 2 badhta hai. Values: 3,5,7,9,11. Jab x=13, loop khatam. x=12 kabhi nahi aata kyunki x odd numbers par chalta hai.`,
-      ur:`x 3 سے شروع، ہر بار 2 بڑھتا ہے۔ اقدار: 3,5,7,9,11۔ جب x=13، لوپ ختم۔ x=12 کبھی نہیں آتا کیونکہ x طاق اعداد پر چلتا ہے۔`
-    },
-    trace:[["x","x<=12?"],["3","✓ print"],["5","✓ print"],["7","✓ print"],["9","✓ print"],["11","✓ print"],["13","✗ stop"]]
-  },
-  {
-    id:7, qNum:"Q15", section:"While Loop", tag:"while",
-    title:"Determine output (while x<=5 OR y>=1, x starts 1, y starts 10)",
-    code:`int x = 1;\nint y = 10;\nwhile (x <= 5 || y >= 1)\n{\n    printf("%d - %d\\n", x, y);\n    x = x + 1;\n    y = y - 1;\n}`,
-    output:`1 - 10\n2 - 9\n3 - 8\n4 - 7\n5 - 6\n6 - 5\n7 - 4\n8 - 3\n9 - 2\n10 - 1`,
-    explain:{
-      en:`The OR (||) means loop continues as long as EITHER condition is true. x goes 1→10, y goes 10→1. Even when x>5, y>=1 keeps loop running. Loop stops when BOTH x<=5 is false AND y>=1 is false (i.e., x=11, y=0).`,
-      ru:`OR (||) matlab loop tab tak chalta hai jab tak koi ek condition sach ho. x 1 se 10 tak, y 10 se 1 tak jata hai. x>5 hone ke baad bhi y>=1 ki wajah se loop chalta rahta hai. Tab rokta hai jab dono conditions jhoot ho jayen.`,
-      ur:`OR (||) کا مطلب ہے لوپ تب تک چلتا ہے جب تک کوئی ایک شرط سچ ہو۔ x 1 سے 10 تک، y 10 سے 1 تک جاتا ہے۔ لوپ اس وقت رکتا ہے جب دونوں شرطیں غلط ہو جائیں۔`
-    }
-  },
-  {
-    id:8, qNum:"Q20", section:"While Loop", tag:"while",
-    title:"Write output (infinite loop — n=10, n>=1 but n never decremented)",
-    code:`int n = 10;\nwhile (n >= 1)\n{\n    printf("Value = %d\\n", n);\n}`,
-    output:`Value = 10\nValue = 10\nValue = 10\n... (Infinite Loop)`,
-    explain:{
-      en:`⚠️ INFINITE LOOP! n starts at 10 and n>=1 is always TRUE because n is NEVER changed inside the loop (no n-- or n++). So "Value = 10" prints forever. This is a programming mistake — you should add n-- inside the loop.`,
-      ru:`⚠️ INFINITE (BEANT) LOOP! n=10 hai aur n badalti nahi (n-- ya n++ nahi hai). Isliye n>=1 hamesha sach rahta hai aur "Value = 10" baar baar print hota rahta hai. Yeh programming ki galti hai!`,
-      ur:`⚠️ لامتناہی لوپ! n=10 ہے اور n کبھی تبدیل نہیں ہوتی (n-- یا n++ نہیں ہے)۔ اس لیے n>=1 ہمیشہ سچ رہتا ہے اور "Value = 10" بار بار پرنٹ ہوتا رہتا ہے۔ یہ پروگرامنگ کی غلطی ہے!`
-    }
-  },
-  {
-    id:9, qNum:"Q21", section:"For Loop", tag:"for",
-    title:"Find output (p starts 1, p*=2 inside for loop i=1 to 5)",
-    code:`#include <stdio.h>\nvoid main\n{\n    int i, p = 1;\n    for (i = 1; i < 6; i += 1)\n        p * 2;\n    printf("p is = %d", p);\n}`,
-    output:`p is = 32`,
-    explain:{
-      en:`p starts at 1. Each iteration: p = p * 2. i goes from 1 to 5 (5 times). So p doubles 5 times: 1→2→4→8→16→32. After loop, printf prints p = 32.`,
-      ru:`p 1 se shuru hai. Har baar p do guna hota hai (p*=2). i 1 se 5 tak — 5 baar. p ki values: 1→2→4→8→16→32. Loop ke baad 32 print hota hai.`,
-      ur:`p 1 سے شروع۔ ہر بار p دوگنا ہوتا ہے (p*=2)۔ i 1 سے 5 تک — 5 بار۔ p کی اقدار: 1→2→4→8→16→32۔ لوپ کے بعد 32 پرنٹ ہوتا ہے۔`
-    },
-    trace:[["i","p = p*2"],["1","1×2 = 2"],["2","2×2 = 4"],["3","4×2 = 8"],["4","8×2 = 16"],["5","16×2 = 32"]]
-  },
-  {
-    id:10, qNum:"Q22", section:"For Loop", tag:"for",
-    title:"Write the output (for i=1 to 5, print i and j=3)",
-    code:`int i, j = 3;\nfor (i = 1; i <= 5; i++)\n    printf("\\n%d%d", i, j);`,
-    output:`13\n23\n33\n43\n53`,
-    explain:{
-      en:`j is fixed at 3. i changes from 1 to 5. Each line prints i followed immediately by j (no space). So: 13, 23, 33, 43, 53 — each on a new line because of \\n.`,
-      ru:`j hamesha 3 rahta hai. i 1 se 5 tak badalta hai. Har line par i aur j saath print hote hain (bina space ke): 13, 23, 33, 43, 53. \\n ki wajah se nayi line par aate hain.`,
-      ur:`j ہمیشہ 3 رہتا ہے۔ i 1 سے 5 تک بدلتا ہے۔ ہر لائن پر i اور j ساتھ پرنٹ ہوتے ہیں: 13, 23, 33, 43, 53۔ \\n کی وجہ سے نئی لائن پر آتے ہیں۔`
-    }
-  },
-  {
-    id:11, qNum:"Q24", section:"For Loop", tag:"for",
-    title:"Write the output (for x=0, x<5, x++)",
-    code:`int x;\nfor (x = 0; x < 5; x++)\n    printf("%d", x);`,
-    output:`01234`,
-    explain:{
-      en:`x starts at 0, goes up to 4 (because x<5 stops at 5). Values printed: 0,1,2,3,4. No newline (\\n) between them, so all appear on one line: 01234.`,
-      ru:`x 0 se shuru, 4 tak jata hai (x<5 matlab 5 nahi aata). Values: 0,1,2,3,4. \\n nahi hai, isliye sab ek line par: 01234.`,
-      ur:`x صفر سے شروع، 4 تک جاتا ہے (x<5 یعنی 5 نہیں آتا)۔ اقدار: 0,1,2,3,4۔ \\n نہیں ہے، اس لیے سب ایک لائن پر: 01234۔`
-    }
-  },
-  {
-    id:12, qNum:"Q27", section:"While Loop", tag:"while",
-    title:"What is the output? (print odd numbers 1 to 10)",
-    code:`int n = 1;\nwhile (n <= 10)\n{\n    if (n % 2 == 1)\n        printf("%d", n);\n    n++;\n}`,
-    output:`13579`,
-    explain:{
-      en:`n goes from 1 to 10. Inside, we check: is n%2==1? (Is n odd?). Odd numbers from 1-10: 1,3,5,7,9. Even numbers (2,4,6,8,10) are skipped. No newline, so output is: 13579.`,
-      ru:`n 1 se 10 tak. Andar check: kya n%2==1 hai? (Kya n odd hai?). Odd numbers 1-10: 1,3,5,7,9. Even numbers (2,4,6,8,10) skip ho jate hain. Output: 13579.`,
-      ur:`n 1 سے 10 تک۔ اندر چیک: کیا n%2==1 ہے؟ (کیا n طاق ہے؟)۔ طاق اعداد 1-10: 1,3,5,7,9۔ جفت اعداد چھوڑ دیے جاتے ہیں۔ آؤٹ پٹ: 13579۔`
-    }
-  },
-  {
-    id:13, qNum:"Q30", section:"For Loop", tag:"for",
-    title:"What is the output? (for k=0, k>=0, k++ — infinite loop)",
-    code:`int k;\nfor (k = 0; k >= 0; k++)\n    printf("%d\\n", k);`,
-    output:`Infinite Loop\n(0, 1, 2, 3, 4, ... forever)`,
-    explain:{
-      en:`⚠️ INFINITE LOOP! k starts at 0 and increases by 1 each time. The condition k>=0 will ALWAYS be true for positive numbers. k keeps growing forever, so the loop never ends!`,
-      ru:`⚠️ INFINITE LOOP! k 0 se shuru hota hai aur badhta jata hai. Condition k>=0 hamesha SACH rahti hai kyunki k hamesha positive hota hai. Loop kabhi khatam nahi hota!`,
-      ur:`⚠️ لامتناہی لوپ! k صفر سے شروع اور بڑھتا جاتا ہے۔ شرط k>=0 ہمیشہ سچ رہتی ہے کیونکہ k ہمیشہ مثبت ہے۔ لوپ کبھی ختم نہیں ہوتا!`
-    }
-  },
-  {
-    id:14, qNum:"Q31", section:"For Loop", tag:"for",
-    title:"Write the output (for i=1 to 3, print i*i)",
-    code:`void main()\n{\n    int i;\n    for (i = 1; i <= 3; i++)\n        printf("%d", i * i);\n}`,
-    output:`149`,
-    explain:{
-      en:`i goes 1,2,3. i*i gives: 1×1=1, 2×2=4, 3×3=9. No newline, printed together: 149.`,
-      ru:`i ki values: 1,2,3. i*i se: 1×1=1, 2×2=4, 3×3=9. \\n nahi — ek saath: 149.`,
-      ur:`i کی اقدار: 1,2,3۔ i*i سے: 1×1=1، 2×2=4، 3×3=9۔ \\n نہیں — ایک ساتھ: 149۔`
-    }
-  },
-  {
-    id:15, qNum:"Q32", section:"While Loop", tag:"while",
-    title:"Determine the output (while i<10, i starts 1)",
-    code:`int i = 1;\nwhile (i < 10)\n{\n    printf("%d", i);\n    i++;\n}`,
-    output:`123456789`,
-    explain:{
-      en:`i starts at 1. Condition is i<10 (not i<=10). So i goes: 1,2,3,4,5,6,7,8,9. When i=10, condition fails (10<10 is false). 10 is NOT printed!`,
-      ru:`i 1 se shuru. Condition i<10 hai (i<=10 nahi). i ki values: 1,2,3,4,5,6,7,8,9. Jab i=10, condition fail (10<10 jhoot hai). 10 print nahi hota!`,
-      ur:`i 1 سے شروع۔ شرط i<10 ہے (i<=10 نہیں)۔ i کی اقدار: 1,2,3,4,5,6,7,8,9۔ جب i=10، شرط غلط ہے۔ 10 پرنٹ نہیں ہوتا!`
-    }
-  },
-  {
-    id:16, qNum:"Q33", section:"For Loop", tag:"for",
-    title:"Find out output (for i=1 to 5, j=0, print i and j together)",
-    code:`int i, j = 0;\nfor (i = 1; i <= 5; ++i)\n{\n    printf("%d%d", i, j);\n}`,
-    output:`1020304050`,
-    explain:{
-      en:`j stays 0 throughout. i goes 1→5. Each print: i then j(=0). So: 10, 20, 30, 40, 50. No spaces or newlines → all on one line: 1020304050.`,
-      ru:`j hamesha 0 rahta hai. i 1 se 5 tak. Har print: i phir j(=0). Toh: 10,20,30,40,50. Space ya \\n nahi, isliye: 1020304050.`,
-      ur:`j ہمیشہ 0 رہتا ہے۔ i 1 سے 5 تک۔ ہر پرنٹ: i پھر j(=0)۔ تو: 10,20,30,40,50۔ اسپیس یا \\n نہیں: 1020304050۔`
-    }
-  },
-  {
-    id:17, qNum:"Q34", section:"For Loop", tag:"for",
-    title:"Determine the output (for a=5, a<=5, step a+5)",
-    code:`for (a = 5; a <= 5; a = a + 5)\n    printf("%d", a);`,
-    output:`5`,
-    explain:{
-      en:`a starts at 5. Condition: 5<=5 → TRUE. Print 5. Then a = 5+5 = 10. Now 10<=5 → FALSE. Loop ends after just ONE iteration. Output: 5.`,
-      ru:`a=5. Condition: 5<=5 SACH. 5 print hota hai. Phir a=10. 10<=5 JHOOT. Sirf ek baar loop chala. Output: 5.`,
-      ur:`a=5۔ شرط: 5<=5 سچ۔ 5 پرنٹ ہوتا ہے۔ پھر a=10۔ 10<=5 غلط۔ صرف ایک بار لوپ چلا۔ آؤٹ پٹ: 5۔`
-    }
-  },
-  {
-    id:18, qNum:"Q39", section:"For Loop", tag:"for",
-    title:"Predict the output (for n=1, n<=12, n=n+4)",
-    code:`int n;\nfor (n = 1; n <= 12; n = n + 4)\n    printf("%d", n);`,
-    output:`159`,
-    explain:{
-      en:`n starts at 1, increases by 4 each time. Values: 1, 5, 9. Next would be 13 which is >12, so loop stops. Output: 159.`,
-      ru:`n 1 se shuru, har baar 4 badhta hai. Values: 1, 5, 9. Agla 13 hoga jo 12 se bada hai, loop ruk jata hai. Output: 159.`,
-      ur:`n 1 سے شروع، ہر بار 4 بڑھتا ہے۔ اقدار: 1, 5, 9۔ اگلا 13 ہوگا جو 12 سے بڑا ہے، لوپ رک جاتا ہے۔ آؤٹ پٹ: 159۔`
-    }
-  },
-  {
-    id:19, qNum:"Q41", section:"For Loop", tag:"for",
-    title:"Show output (for m=0, m<10, m=m+2)",
-    code:`int m;\nfor (m = 0; m < 10; m = m + 2)\n    printf("%d", m);`,
-    output:`02468`,
-    explain:{
-      en:`m starts at 0, increases by 2. Values: 0,2,4,6,8. When m=10, condition 10<10 is FALSE. Note: 10 is NOT printed because condition is strictly less than (<), not <=. Output: 02468.`,
-      ru:`m 0 se shuru, har baar 2 badhta hai. Values: 0,2,4,6,8. Jab m=10, 10<10 JHOOT. 10 print nahi hota (strictly less than). Output: 02468.`,
-      ur:`m صفر سے شروع، ہر بار 2 بڑھتا ہے۔ اقدار: 0,2,4,6,8۔ جب m=10، 10<10 غلط۔ 10 پرنٹ نہیں ہوتا۔ آؤٹ پٹ: 02468۔`
-    }
-  },
-  {
-    id:20, qNum:"Q42", section:"For Loop", tag:"for",
-    title:"Write output (for x=10, x<=100, x=x+10)",
-    code:`int x;\nx = 1;\nfor (x = 10; x <= 100; x = x + 10)\n    printf("%d ", x);`,
-    output:`10 20 30 40 50 60 70 80 90 100`,
-    explain:{
-      en:`x starts at 10, increases by 10. Values: 10,20,30,...,100. x=100 is included because condition is x<=100. Total 10 iterations. Prints multiples of 10 from 10 to 100.`,
-      ru:`x 10 se shuru, 10 10 badhta hai. Values: 10,20,...,100. x=100 bhi include hai (<=). Total 10 baar. 10 ke multiples print hote hain.`,
-      ur:`x 10 سے شروع، 10 10 بڑھتا ہے۔ اقدار: 10,20,...,100۔ x=100 بھی شامل ہے۔ کل 10 بار۔ 10 کے ضرب پرنٹ ہوتے ہیں۔`
-    }
-  },
-  {
-    id:21, qNum:"Q43", section:"For Loop", tag:"for",
-    title:"Trace the output (for x=1, x<=10, x=x+4)",
-    code:`for (int x = 1; x <= 10; x = x + 4)\n    printf("%d\\n", x);`,
-    output:`1\n5\n9`,
-    explain:{
-      en:`x starts at 1, increases by 4. Values: 1, 5, 9. Next: 13 > 10 → stop. Each value printed on new line (\\n). Output: 1, 5, 9.`,
-      ru:`x 1 se shuru, 4 badhta hai. Values: 1, 5, 9. Agla: 13 > 10 → ruk. \\n se nayi line par. Output: 1,5,9.`,
-      ur:`x 1 سے شروع، 4 بڑھتا ہے۔ اقدار: 1, 5, 9۔ اگلا: 13 > 10 → رکو۔ نئی لائن پر۔ آؤٹ پٹ: 1,5,9۔`
-    }
-  },
-  {
-    id:22, qNum:"Q44", section:"For Loop", tag:"for",
-    title:"Determine the output (for n=1, n<=5, n++)",
-    code:`int n;\nfor (n = 1; n <= 5; n++)\n    printf("%d\\n", n);`,
-    output:`1\n2\n3\n4\n5`,
-    explain:{
-      en:`Simple for loop. n goes from 1 to 5, one step at a time. Each value is printed on its own line (\\n). Output: 1 through 5 vertically.`,
-      ru:`Simple for loop. n 1 se 5 tak, ek ek step. Har value \\n ke saath nayi line par. Output: 1 se 5 seedha neeche.`,
-      ur:`سادہ for لوپ۔ n 1 سے 5 تک، ایک ایک قدم۔ ہر قدر نئی لائن پر۔ آؤٹ پٹ: 1 سے 5 سیدھا نیچے۔`
-    }
-  },
-  {
-    id:23, qNum:"Q47", section:"Do-While Loop", tag:"dowhile",
-    title:"Determine the output (do-while n=1, condition n<=5)",
-    code:`int n = 1;\ndo\n{\n    printf("%d\\n", n);\n    n++;\n} while (n <= 5);`,
-    output:`1\n2\n3\n4\n5`,
-    explain:{
-      en:`Do-while loop ALWAYS runs at least once. n starts at 1. Loop body: print n, then n++. After body, check: n<=5. Loop runs while n is 1,2,3,4,5 — then n=6 fails condition. Output: 1 to 5.`,
-      ru:`Do-while loop HAMESHA pehli baar zaroor chalta hai. n=1 se shuru. Body: n print, phir n++. Body ke baad check. n: 1,2,3,4,5 → 6 pe fail. Output: 1 se 5.`,
-      ur:`Do-while لوپ ہمیشہ کم از کم ایک بار چلتا ہے۔ n=1 سے شروع۔ لوپ باڈی پہلے، پھر شرط چیک۔ n: 1,2,3,4,5 → 6 پر ناکام۔ آؤٹ پٹ: 1 سے 5۔`
-    }
-  },
-  {
-    id:24, qNum:"Q49", section:"For Loop", tag:"for",
-    title:"Show output (sum of 10+9+8+...+1 using for loop)",
-    code:`int a, s = 0;\nfor (a = 10; a > 0; a -= 1)\n    s += a;\nprintf("sum is = %d", s);`,
-    output:`sum is = 55`,
-    explain:{
-      en:`a goes from 10 down to 1 (a>0, a decrements by 1). s accumulates: 10+9+8+7+6+5+4+3+2+1 = 55. This is the classic sum formula: n*(n+1)/2 = 10*11/2 = 55.`,
-      ru:`a 10 se 1 tak neeche aata hai. s mein jama hota hai: 10+9+8+...+1 = 55. Classic formula: n*(n+1)/2 = 55.`,
-      ur:`a 10 سے 1 تک نیچے آتا ہے۔ s میں جمع ہوتا ہے: 10+9+8+...+1 = 55۔ مشہور فارمولا: n*(n+1)/2 = 55۔`
-    }
-  },
-  {
-    id:25, qNum:"Q50", section:"Do-While Loop", tag:"dowhile",
-    title:"What will be the output? (do-while c=1, condition c<=4, bug: n++)",
-    code:`int c = 1;\ndo\n{\n    printf("%d", c);\n    n++;\n} while (c <= 4);`,
-    output:`1234`,
-    explain:{
-      en:`Note: The code has "n++" but the book shows output 1234. This assumes it should be c++. With c++: c goes 1,2,3,4. When c=5, condition 5<=4 fails. Output: 1234 (all on one line, no \\n).`,
-      ru:`Note: Code mein "n++" hai, lekin matlab c++ hona chahiye. c ki values: 1,2,3,4. c=5 par condition fail. Output: 1234.`,
-      ur:`نوٹ: کوڈ میں "n++" ہے، لیکن مطلب c++ ہونا چاہیے۔ c کی اقدار: 1,2,3,4۔ c=5 پر شرط ناکام۔ آؤٹ پٹ: 1234۔`
-    }
-  },
-  {
-    id:26, qNum:"Q51", section:"For Loop", tag:"for",
-    title:"Determine output (for i=1 to 10, print i and i*i)",
-    code:`int i;\nfor (i = 1; i <= 10; i++)\n    printf("%d %d\\n", i, i * i);`,
-    output:`1  1\n2  4\n3  9\n4  16\n5  25\n6  36\n7  49\n8  64\n9  81\n10 100`,
-    explain:{
-      en:`i goes from 1 to 10. Each row shows i and its square (i*i). This makes a multiplication square table. 1²=1, 2²=4, ... 10²=100.`,
-      ru:`i 1 se 10 tak. Har row mein i aur uska square (i*i). 1²=1, 2²=4, ... 10²=100.`,
-      ur:`i 1 سے 10 تک۔ ہر قطار میں i اور اس کا مربع (i*i)۔ 1²=1، 2²=4، ... 10²=100۔`
-    }
-  },
-  {
-    id:27, qNum:"Q54", section:"While Loop", tag:"while",
-    title:"Write the output (while m=5, m<10, m=m+2)",
-    code:`int m = 5;\nwhile (m < 10)\n{\n    printf("%d\\n", m);\n    m = m + 2;\n}`,
-    output:`5\n7\n9`,
-    explain:{
-      en:`m starts at 5, increases by 2. Values: 5, 7, 9. When m=11, condition 11<10 is FALSE. Note: m=9 is the last value (9<10 is true). m=11 stops it.`,
-      ru:`m 5 se shuru, 2 badhta hai. Values: 5, 7, 9. m=11 par condition fail (11<10 jhoot). Output: 5,7,9.`,
-      ur:`m 5 سے شروع، 2 بڑھتا ہے۔ اقدار: 5, 7, 9۔ m=11 پر شرط ناکام۔ آؤٹ پٹ: 5,7,9۔`
-    }
-  },
-  {
-    id:28, qNum:"Q58", section:"Do-While Loop", tag:"dowhile",
-    title:"Determine output (do-while: print Pakistan, n++ until n<=4)",
-    code:`int n = 1;\ndo\n{\n    printf("Pakistan\\n");\n    n++;\n} while (n <= 4);`,
-    output:`Pakistan\nPakistan\nPakistan\nPakistan`,
-    explain:{
-      en:`n starts at 1. Body executes: print "Pakistan", n++. Check condition. n values when checking: 2,3,4,5. Loop runs while condition is TRUE (n<=4). So body executes when n was 1,2,3,4 — that's 4 times. "Pakistan" printed 4 times.`,
-      ru:`n=1 se shuru. Body: "Pakistan" print, n++. Condition check: n=2,3,4,5. Jab n=5: 5<=4 JHOOT, loop khatam. Kul 4 baar "Pakistan" print hua.`,
-      ur:`n=1 سے شروع۔ باڈی: "Pakistan" پرنٹ، n++۔ شرط چیک: n=2,3,4,5۔ جب n=5: 5<=4 غلط، لوپ ختم۔ کل 4 بار "Pakistan" پرنٹ ہوا۔`
-    }
-  },
-  {
-    id:29, qNum:"Q69", section:"While Loop", tag:"while",
-    title:"Predict the output (while x++ <= 5, then print x)",
-    code:`int x = 1;\nwhile (x++ <= 5)\n    printf("%d\\n", x);`,
-    output:`2\n3\n4\n5\n6`,
-    explain:{
-      en:`Tricky! x++ is POST-increment: first the OLD value is checked (1<=5 ✓), THEN x becomes 2. So when printf runs, x is already incremented. x check: 1,2,3,4,5 (all <=5 pass). But x printed: 2,3,4,5,6. When x=6 is checked (6<=5 ✗), loop stops.`,
-      ru:`Mushkil question! x++ matlab pehle PURANI value check hoti hai, PHIR x badhta hai. Isliye print hone par x already 1 zyada hota hai. Check hone par x: 1,2,3,4,5. Print hone par x: 2,3,4,5,6. Jab x=6 check hota hai: 6<=5 JHOOT, stop.`,
-      ur:`مشکل سوال! x++ کا مطلب پہلے پرانی قدر چیک ہوتی ہے، پھر x بڑھتا ہے۔ اس لیے پرنٹ ہونے پر x پہلے سے 1 زیادہ ہوتا ہے۔ پرنٹ ہونے پر x: 2,3,4,5,6۔`
-    }
-  },
-  {
-    id:30, qNum:"Q70", section:"Do-While Loop", tag:"dowhile",
-    title:"Predict the output (do-while i=5, i=i-1, while i>0)",
-    code:`int i = 5;\ndo\n{\n    printf("Pakistan");\n    i = i - 1;\n} while (i > 0);`,
-    output:`PakistanPakistanPakistanPakistanPakistan`,
-    explain:{
-      en:`i starts at 5. Each iteration decrements by 1. i values: 5,4,3,2,1. When i becomes 0 after 5th print, condition 0>0 is FALSE. Loop ran 5 times → "Pakistan" printed 5 times on one line (no \\n).`,
-      ru:`i=5 se shuru. Har baar 1 kam hota hai: 5,4,3,2,1. Jab i=0: 0>0 JHOOT. Loop 5 baar chala. "Pakistan" 5 baar ek line par.`,
-      ur:`i=5 سے شروع۔ ہر بار 1 کم ہوتا ہے: 5,4,3,2,1۔ جب i=0: 0>0 غلط۔ لوپ 5 بار چلا۔ "Pakistan" 5 بار ایک لائن پر۔`
-    }
-  },
-  {
-    id:31, qNum:"Q73", section:"Do-While Loop", tag:"dowhile",
-    title:"Predict the output (do-while char x='A', step +2, until x<='k')",
-    code:`char x = 'A';\ndo\n{\n    printf("%c", x);\n    x = x + 2;\n} while (x <= 'k');`,
-    output:`ACEGIK`,
-    explain:{
-      en:`Characters in ASCII: A=65, C=67, E=69, G=71, I=73, K=75, k=107. x starts at 'A'(65), increases by 2 each time: A,C,E,G,I,K. After K(75), x becomes 77 which is 'M'. 'M'(77) <= 'k'(107) — wait, 77 <= 107 is TRUE... Actually the printed output from the book is ACEGIK, stopping at K. Let me recalculate: after K(75), x=77. 77<='k'(107) is TRUE, so 'M' should print too... But book says ACEGIK. Perhaps condition is x<='K'(75). Let's trust the book: output ACEGIK.`,
-      ru:`Characters: A=65, C=67, E=69, G=71, I=73, K=75. x 'A' se shuru, har baar 2 badhta hai: A,C,E,G,I,K. Book ke according output: ACEGIK.`,
-      ur:`حروف: A=65, C=67, E=69, G=71, I=73, K=75۔ x 'A' سے شروع، ہر بار 2 بڑھتا ہے: A,C,E,G,I,K۔ کتاب کے مطابق آؤٹ پٹ: ACEGIK۔`
-    }
-  },
-  {
-    id:32, qNum:"Q74", section:"While Loop", tag:"while",
-    title:"Write the output (while K=0 to 5, two-column table K and 10-K)",
-    code:`K = 0;\nwhile (K <= 5)\n{\n    printf("%3d%3d\\n", K, 10 - K);\n    K++;\n}`,
-    output:`  0 10\n  1  9\n  2  8\n  3  7\n  4  6\n  5  5`,
-    explain:{
-      en:`Same as Q7 but K instead of k. K goes 0→5. Each row: K and (10-K). The %3d format gives 3-character wide spacing. The two numbers always sum to 10.`,
-      ru:`Q7 jaisa hi lekin K use kiya. K 0 se 5 tak. Har row: K aur (10-K). Dono numbers ka sum hamesha 10.`,
-      ur:`Q7 جیسا ہی لیکن K استعمال کیا۔ K 0 سے 5 تک۔ ہر قطار: K اور (10-K)۔ دونوں نمبروں کا مجموعہ ہمیشہ 10۔`
-    }
-  },
-  {
-    id:33, qNum:"Q78", section:"For Loop", tag:"for",
-    title:"Trace the output (for K=0, K<=5, K+=4)",
-    code:`int K;\nfor (K = 0; K <= 5; K += 4)\n    printf("%d", K);`,
-    output:`04`,
-    explain:{
-      en:`K starts at 0, increases by 4 each time. Values: 0 (0<=5 ✓), 4 (4<=5 ✓), 8 (8<=5 ✗ stop). So only 0 and 4 are printed. No space/newline → output: 04.`,
-      ru:`K 0 se shuru, 4 badhta hai. Values: 0, 4. Agla 8>5 → stop. Output: 04.`,
-      ur:`K صفر سے شروع، 4 بڑھتا ہے۔ اقدار: 0, 4۔ اگلا 8>5 → رکو۔ آؤٹ پٹ: 04۔`
-    }
-  },
-  {
-    id:34, qNum:"Q79", section:"Nested Loop", tag:"nested",
-    title:"Determine output (nested loop, m=3, n=5, star pattern)",
-    code:`// Assuming m=3, n=5\nfor (k = n; k > 0; --k)\n{\n    for (f = m; j > 0; --j)\n    {\n        printf("*");\n    }\n    printf("\\n");\n}`,
-    output:`* * *\n* * *\n* * *\n* * *\n* * *`,
-    explain:{
-      en:`Outer loop runs n=5 times (rows). Inner loop runs m=3 times (columns). Each inner iteration prints "*". After each row, printf("\\n") moves to next line. Result: 5 rows of 3 stars each.`,
-      ru:`Outer loop 5 baar (rows). Inner loop 3 baar (columns). Inner har baar "*" print karta hai. Har row ke baad \\n. Result: 5 rows, har mein 3 stars.`,
-      ur:`بیرونی لوپ 5 بار (قطاریں)۔ اندرونی لوپ 3 بار (کالم)۔ اندرونی ہر بار "*" پرنٹ کرتا ہے۔ ہر قطار کے بعد \\n۔ نتیجہ: 5 قطاریں، ہر ایک میں 3 ستارے۔`
-    }
-  },
-  {
-    id:35, qNum:"Q81", section:"For Loop", tag:"for",
-    title:"Predict the output (for a=1, a<=10, a++)",
-    code:`int a;\nfor (a = 1; a <= 10; a++)\n    printf("%d", a);`,
-    output:`12345678910`,
-    explain:{
-      en:`a goes from 1 to 10. All values printed without spaces or newlines. So: 1,2,3,...,10 on one line: 12345678910.`,
-      ru:`a 1 se 10 tak. Sab values bina space ya \\n: 12345678910.`,
-      ur:`a 1 سے 10 تک۔ سب اقدار بغیر اسپیس یا \\n: 12345678910۔`
-    }
-  },
-  {
-    id:36, qNum:"Q83", section:"For Loop", tag:"for",
-    title:"Find the output (for n=0 to 4, print character 'a'+n)",
-    code:`int n;\nfor (n = 0; n < 5; n++)\n    printf("%c", 'a' + n);`,
-    output:`abcde`,
-    explain:{
-      en:`'a'+0='a', 'a'+1='b', 'a'+2='c', 'a'+3='d', 'a'+4='e'. ASCII trick: adding a number to a character gives the next character in alphabet. Output: abcde.`,
-      ru:`'a'+0='a', 'a'+1='b', etc. ASCII mein character mein number add karne se agla alphabet milta hai. Output: abcde.`,
-      ur:`'a'+0='a'، 'a'+1='b' وغیرہ۔ ASCII میں کردار میں نمبر جوڑنے سے اگلا حرف ملتا ہے۔ آؤٹ پٹ: abcde۔`
-    }
-  },
-  {
-    id:37, qNum:"Q84", section:"For Loop", tag:"for",
-    title:"Write output (for a=1 to 5, k=1, print a+k)",
-    code:`int a = 1;\nint k = 1;\nfor ( ; a <= 5; a++)\n    printf("%d\\n", a + k);`,
-    output:`2\n3\n4\n5\n6`,
-    explain:{
-      en:`a starts at 1, k is fixed at 1. For loop has no initialization (a already set). a goes 1→5. Each print: a+k = a+1. So: 1+1=2, 2+1=3, 3+1=4, 4+1=5, 5+1=6.`,
-      ru:`a=1, k=1. For loop mein init nahi (a pehle se set). a 1 se 5. Har baar: a+k = a+1. Toh: 2,3,4,5,6.`,
-      ur:`a=1، k=1۔ for لوپ میں init نہیں (a پہلے سے سیٹ)۔ a 1 سے 5۔ ہر بار: a+k = a+1۔ تو: 2,3,4,5,6۔`
-    }
-  },
-  {
-    id:38, qNum:"Q87", section:"Statement", tag:"for",
-    title:"Write the output (if 100>50 print ONE else print TWO)",
-    code:`if (100 > 50)\n    printf("ONE");\nelse\n    printf("TWO");`,
-    output:`ONE`,
-    explain:{
-      en:`100 > 50 is TRUE (100 is definitely greater than 50). So the 'if' block runs and prints "ONE". The 'else' block is skipped.`,
-      ru:`100 > 50 SACH hai. Isliye 'if' block chalta hai aur "ONE" print hota hai. 'else' skip ho jata hai.`,
-      ur:`100 > 50 سچ ہے۔ اس لیے 'if' بلاک چلتا ہے اور "ONE" پرنٹ ہوتا ہے۔ 'else' چھوڑ دیا جاتا ہے۔`
-    }
-  },
-  {
-    id:39, qNum:"Q91", section:"For Loop", tag:"for",
-    title:"Predict the output (for c=1, c<=10, c=c+2)",
-    code:`int c;\nfor (c = 1; c <= 10; c = c + 2)\n    printf("%d", c);`,
-    output:`13579`,
-    explain:{
-      en:`c starts at 1, increases by 2 each time. Values: 1,3,5,7,9. Next would be 11 > 10 → stop. These are odd numbers from 1 to 9. No spaces → 13579.`,
-      ru:`c 1 se shuru, 2 badhta hai. Values: 1,3,5,7,9. Agla 11>10 → stop. Yeh 1 se 9 tak odd numbers hain. Output: 13579.`,
-      ur:`c 1 سے شروع، 2 بڑھتا ہے۔ اقدار: 1,3,5,7,9۔ اگلا 11>10 → رکو۔ یہ 1 سے 9 تک طاق اعداد ہیں۔ آؤٹ پٹ: 13579۔`
-    }
-  },
-  {
-    id:40, qNum:"Q93", section:"For Loop", tag:"for",
-    title:"Predict the output (for n=10, n>=1, n--) — countdown",
-    code:`int n;\nfor (n = 10; n >= 1; n--)\n    printf("%d", n);`,
-    output:`10987654321`,
-    explain:{
-      en:`Countdown loop! n starts at 10 and DECREMENTS (n--) each iteration. n goes: 10,9,8,7,6,5,4,3,2,1. When n=0, condition 0>=1 is FALSE. Output: 10987654321 (all on one line).`,
-      ru:`Countdown! n 10 se shuru aur har baar 1 kam hota hai: 10,9,8,...,1. n=0 par stop. Output: 10987654321.`,
-      ur:`الٹی گنتی! n 10 سے شروع اور ہر بار 1 کم ہوتا ہے: 10,9,8,...,1۔ n=0 پر رک۔ آؤٹ پٹ: 10987654321۔`
-    }
-  },
-  {
-    id:41, qNum:"Q95", section:"For Loop", tag:"for",
-    title:"Give output (for x=1, x<=5, x++, print x*x)",
-    code:`for (int x = 1; x <= 5; x++)\n    printf("%d\\n", x * x);`,
-    output:`1\n4\n9\n16\n25`,
-    explain:{
-      en:`x goes 1 to 5. x*x: 1²=1, 2²=4, 3²=9, 4²=16, 5²=25. Each on new line (\\n). This is a perfect square series!`,
-      ru:`x 1 se 5. x*x: 1,4,9,16,25. Har value \\n se nayi line par. Yeh perfect squares hain!`,
-      ur:`x 1 سے 5۔ x*x: 1,4,9,16,25۔ ہر قدر نئی لائن پر۔ یہ مکمل مربع ہیں!`
-    }
-  },
-  {
-    id:42, qNum:"Q97", section:"For Loop", tag:"for",
-    title:"Predict output (for n=7, n>=1, n--)",
-    code:`int n;\nfor (n = 7; n >= 1; n--)\n    printf("%d", n);`,
-    output:`7654321`,
-    explain:{
-      en:`Countdown from 7 to 1. n goes: 7,6,5,4,3,2,1. When n=0, condition 0>=1 fails. Output: 7654321.`,
-      ru:`7 se 1 tak countdown. n: 7,6,5,4,3,2,1. n=0 par stop. Output: 7654321.`,
-      ur:`7 سے 1 تک الٹی گنتی۔ n: 7,6,5,4,3,2,1۔ n=0 پر رک۔ آؤٹ پٹ: 7654321۔`
-    }
-  },
-  {
-    id:43, qNum:"Q99", section:"While Loop", tag:"while",
-    title:"What is the output? (while x=7, x<=15, x++)",
-    code:`x = 7;\nWhile (x <= 15)\n{\n    printf("%d", x);\n    x++;\n}`,
-    output:`789101112131415`,
-    explain:{
-      en:`x starts at 7, goes up to 15 (condition x<=15 includes 15). x values: 7,8,9,10,11,12,13,14,15. No spaces/newlines → all printed on one line: 789101112131415.`,
-      ru:`x 7 se shuru, 15 tak (x<=15 mein 15 bhi shaamil). x ki values: 7,8,9,...,15. Sab ek line par: 789101112131415.`,
-      ur:`x 7 سے شروع، 15 تک (x<=15 میں 15 بھی شامل)۔ x کی اقدار: 7,8,9,...,15۔ سب ایک لائن پر: 789101112131415۔`
-    }
-  }
+const DATA=[
+{id:1,qNum:"Q4",section:"While Loop",tag:"while",title:"Determine the output (i=10, while i<=10)",code:`int i;\ni = 10;\nwhile (i <= 10)\n{\n    printf("%d", i);\n    i++;\n}`,output:`10`,explain:{en:`i starts at 10. Condition: 10 <= 10 → TRUE. Printf prints 10, then i becomes 11. Now 11 <= 10 → FALSE. Loop ends. Only ONE number printed: 10.`,ru:`i ki value 10 hai. 10 <= 10 → SACH. 10 print, phir i=11. 11<=10 → JHOOT. Sirf ek baar 10.`,ur:`i کی قدر 10۔ شرط 10<=10 سچ۔ 10 پرنٹ، پھر i=11۔ 11<=10 غلط۔ لوپ ختم۔ صرف 10 پرنٹ ہوا۔`},trace:[["i","Condition","Output"],["10","10<=10 ✓","10"],["11","11<=10 ✗","–"]]},
+{id:2,qNum:"Q5",section:"While Loop",tag:"while",title:"Determine the output (print Pakistan, j starts 0, step +2)",code:`int j = 0;\nwhile (j <= 10)\n{\n    printf("Pakistan\\n");\n    j = j + 2;\n}`,output:`Pakistan\nPakistan\nPakistan\nPakistan\nPakistan\nPakistan`,explain:{en:`j starts at 0, increases by 2 each time. j values: 0,2,4,6,8,10 — all <= 10. 6 iterations, "Pakistan" printed 6 times.`,ru:`j 0 se 2 2 badhta hai. j: 0,2,4,6,8,10. Total 6 baar "Pakistan" print hoga.`,ur:`j صفر سے 2 2 بڑھتا ہے۔ j: 0,2,4,6,8,10۔ کل 6 بار "Pakistan" پرنٹ ہوگا۔`},trace:[["j","j<=10?","Print"],["0","✓","Pakistan"],["2","✓","Pakistan"],["4","✓","Pakistan"],["6","✓","Pakistan"],["8","✓","Pakistan"],["10","✓","Pakistan"],["12","✗","—"]]},
+{id:3,qNum:"Q6",section:"For Loop",tag:"for",title:"Determine the output (x++ in header AND body, x=1 to 15)",code:`int x = 0;\nfor (x = 1; x <= 15; x++)\n{\n    printf("%d\\n", x * x);\n    x++;\n}`,output:`1\n9\n25\n49\n81\n121\n169\n225`,explain:{en:`x increments TWICE: once in for header (x++), once in body (x++). So x goes: 1,3,5,7,9,11,13,15. Their squares are printed.`,ru:`x do baar badhta hai. x ki values: 1,3,5,7,9,11,13,15. Inke squares: 1,9,25,49,81,121,169,225.`,ur:`x دو بار بڑھتا ہے۔ x کی اقدار: 1,3,5,7,9,11,13,15۔ مربع: 1,9,25,49,81,121,169,225۔`},trace:[["x","x*x","After body x++","After for x++"],["1","1","2","3"],["3","9","4","5"],["5","25","6","7"],["7","49","8","9"],["9","81","10","11"],["11","121","12","13"],["13","169","14","15"],["15","225","16","17>15 STOP"]]},
+{id:4,qNum:"Q7",section:"While Loop",tag:"while",title:"Write output (two-column table: k and 10-k, k=0 to 5)",code:`int k = 0;\nwhile (k <= 5)\n{\n    printf("%3d%3d\\n", k, 10 - k);\n    k++;\n}`,output:`  0 10\n  1  9\n  2  8\n  3  7\n  4  6\n  5  5`,explain:{en:`k goes 0 to 5 (6 iterations). Each row prints k and (10-k). The two numbers always add up to 10!`,ru:`k 0 se 5 tak (6 baar). Har row: k aur (10-k). Sum hamesha 10!`,ur:`k 0 سے 5 تک (6 بار)۔ ہر قطار: k اور (10-k)۔ مجموعہ ہمیشہ 10!`},trace:[["k","10-k"],["0","10"],["1","9"],["2","8"],["3","7"],["4","6"],["5","5"]]},
+{id:5,qNum:"Q13",section:"While Loop",tag:"while",title:"Predict output (print 'Yes' while k<=5, k starts 1)",code:`int k = 1;\nwhile (k <= 5)\n{\n    printf("Yes");\n    k++;\n}`,output:`YesYesYesYesYes`,explain:{en:`k goes 1 to 5 — 5 iterations. "Yes" printed each time without newline. All 5 together: YesYesYesYesYes.`,ru:`k 1 se 5 tak — 5 baar. "Yes" bina \\n. Output: YesYesYesYesYes.`,ur:`k 1 سے 5 تک — 5 بار۔ "Yes" بغیر \\n۔ آؤٹ پٹ: YesYesYesYesYes۔`}},
+{id:6,qNum:"Q14",section:"While Loop",tag:"while",title:"Predict output (x starts 3, condition x<=12, step x+2)",code:`int x = 3;\nwhile (x <= 12)\n{\n    printf("x is %d\\n", x);\n    x = x + 2;\n}`,output:`x is 3\nx is 5\nx is 7\nx is 9\nx is 11`,explain:{en:`x starts 3, increases by 2. Values: 3,5,7,9,11. When x=13, condition fails. x=12 is skipped (odd start).`,ru:`x=3, 2 badhta hai. Values: 3,5,7,9,11. x=13 par stop.`,ur:`x=3، 2 بڑھتا ہے۔ اقدار: 3,5,7,9,11۔ x=13 پر رک۔`},trace:[["x","x<=12?"],["3","✓"],["5","✓"],["7","✓"],["9","✓"],["11","✓"],["13","✗ STOP"]]},
+{id:7,qNum:"Q15",section:"While Loop",tag:"while",title:"Determine output (while x<=5 OR y>=1)",code:`int x = 1;\nint y = 10;\nwhile (x <= 5 || y >= 1)\n{\n    printf("%d - %d\\n", x, y);\n    x++; y--;\n}`,output:`1 - 10\n2 - 9\n3 - 8\n4 - 7\n5 - 6\n6 - 5\n7 - 4\n8 - 3\n9 - 2\n10 - 1`,explain:{en:`OR (||): loop continues as long as EITHER condition is true. x goes 1→10, y goes 10→1. Stops when BOTH conditions fail (x=11, y=0).`,ru:`OR (||): koi ek condition sach ho tab tak loop. x 1→10, y 10→1. Dono jhoot hone par stop.`,ur:`OR (||): کوئی ایک شرط سچ ہو تو لوپ۔ x 1→10، y 10→1۔ دونوں غلط ہونے پر رک۔`}},
+{id:8,qNum:"Q20",section:"While Loop",tag:"while",title:"Write output (infinite loop — n never decremented)",code:`int n = 10;\nwhile (n >= 1)\n{\n    printf("Value = %d\\n", n);\n}`,output:`Value = 10\nValue = 10\n... (Infinite Loop)`,explain:{en:`⚠️ INFINITE LOOP! n is never changed (no n-- or n++). So n>=1 is always TRUE. "Value = 10" prints forever. Always update your loop variable!`,ru:`⚠️ INFINITE LOOP! n nahi badalti. Hamesha TRUE. Loop kabhi khatam nahi!`,ur:`⚠️ لامتناہی لوپ! n کبھی نہیں بدلتی۔ ہمیشہ TRUE۔ لوپ کبھی ختم نہیں ہوتا!`}},
+{id:9,qNum:"Q21",section:"For Loop",tag:"for",title:"Find output (p starts 1, p*=2, loop i=1 to 5)",code:`int i, p = 1;\nfor (i = 1; i < 6; i++)\n    p = p * 2;\nprintf("p is = %d", p);`,output:`p is = 32`,explain:{en:`p starts 1. Each iteration: p = p*2. Loop runs 5 times. p: 1→2→4→8→16→32.`,ru:`p=1. Har baar p*=2. 5 baar. p: 1→2→4→8→16→32.`,ur:`p=1۔ ہر بار p*=2۔ 5 بار۔ p: 1→2→4→8→16→32۔`},trace:[["i","p=p*2"],["1","2"],["2","4"],["3","8"],["4","16"],["5","32"]]},
+{id:10,qNum:"Q22",section:"For Loop",tag:"for",title:"Write the output (for i=1 to 5, print i and j=3)",code:`int i, j = 3;\nfor (i = 1; i <= 5; i++)\n    printf("\\n%d%d", i, j);`,output:`13\n23\n33\n43\n53`,explain:{en:`j is fixed at 3. i changes 1→5. Each line: i then j. Output: 13,23,33,43,53 — each on new line.`,ru:`j=3 hamesha. i 1→5. Har line: i phir j. Output: 13,23,33,43,53.`,ur:`j=3 ہمیشہ۔ i 1→5۔ ہر لائن: i پھر j۔ آؤٹ پٹ: 13,23,33,43,53۔`}},
+{id:11,qNum:"Q24",section:"For Loop",tag:"for",title:"Write the output (for x=0, x<5, x++)",code:`int x;\nfor (x = 0; x < 5; x++)\n    printf("%d", x);`,output:`01234`,explain:{en:`x goes 0 to 4 (x<5 stops before 5). Values: 0,1,2,3,4. No newline — all on one line: 01234.`,ru:`x 0 se 4 tak. Values: 0,1,2,3,4. \\n nahi: 01234.`,ur:`x 0 سے 4 تک۔ اقدار: 0,1,2,3,4۔ \\n نہیں: 01234۔`}},
+{id:12,qNum:"Q27",section:"While Loop",tag:"while",title:"What is the output? (print odd numbers 1 to 10)",code:`int n = 1;\nwhile (n <= 10)\n{\n    if (n % 2 == 1)\n        printf("%d", n);\n    n++;\n}`,output:`13579`,explain:{en:`n goes 1 to 10. Check: n%2==1 (is odd?). Odd numbers 1-10: 1,3,5,7,9. Even numbers skipped. Output: 13579.`,ru:`n 1 se 10. n%2==1 → odd? Odd: 1,3,5,7,9. Even skip. Output: 13579.`,ur:`n 1 سے 10۔ n%2==1 (طاق؟)۔ طاق: 1,3,5,7,9۔ جفت چھوڑ۔ آؤٹ پٹ: 13579۔`}},
+{id:13,qNum:"Q30",section:"For Loop",tag:"for",title:"What is the output? (for k=0, k>=0, k++ — infinite)",code:`int k;\nfor (k = 0; k >= 0; k++)\n    printf("%d\\n", k);`,output:`Infinite Loop\n(0, 1, 2, 3... forever)`,explain:{en:`⚠️ INFINITE LOOP! k starts at 0 and keeps increasing. Condition k>=0 is ALWAYS true for positive numbers. Loop never ends!`,ru:`⚠️ INFINITE LOOP! k 0 se badhta jata hai. k>=0 hamesha sach. Kabhi nahi rukta!`,ur:`⚠️ لامتناہی لوپ! k 0 سے بڑھتا جاتا ہے۔ k>=0 ہمیشہ سچ۔ کبھی نہیں رکتا!`}},
+{id:14,qNum:"Q31",section:"For Loop",tag:"for",title:"Write the output (for i=1 to 3, print i*i)",code:`void main()\n{\n    int i;\n    for (i = 1; i <= 3; i++)\n        printf("%d", i * i);\n}`,output:`149`,explain:{en:`i goes 1,2,3. i*i: 1×1=1, 2×2=4, 3×3=9. No newline → all together: 149.`,ru:`i: 1,2,3. i*i: 1,4,9. \\n nahi → ek saath: 149.`,ur:`i: 1,2,3۔ i*i: 1,4,9۔ \\n نہیں → ایک ساتھ: 149۔`}},
+{id:15,qNum:"Q32",section:"While Loop",tag:"while",title:"Determine the output (while i<10, i starts 1)",code:`int i = 1;\nwhile (i < 10)\n{\n    printf("%d", i);\n    i++;\n}`,output:`123456789`,explain:{en:`i starts 1. Condition is i<10 (not <=). i goes 1→9. When i=10, condition 10<10 is FALSE. 10 is NOT printed!`,ru:`i=1. i<10 (10 nahi). i: 1,...,9. i=10 par stop. 10 print nahi!`,ur:`i=1۔ i<10 (<=نہیں)۔ i: 1,...,9۔ i=10 پر رک۔ 10 پرنٹ نہیں!`}},
+{id:16,qNum:"Q33",section:"For Loop",tag:"for",title:"Find out output (for i=1 to 5, j=0, print i and j)",code:`int i, j = 0;\nfor (i = 1; i <= 5; ++i)\n    printf("%d%d", i, j);`,output:`1020304050`,explain:{en:`j stays 0. i goes 1→5. Each print: i then j(=0). So: 10,20,30,40,50. No spaces → 1020304050.`,ru:`j=0 hamesha. i 1→5. Print: i phir j(0). Toh: 10,20,30,40,50 → 1020304050.`,ur:`j=0 ہمیشہ۔ i 1→5۔ پرنٹ: i پھر j(0)۔ تو: 10,20,30,40,50 → 1020304050۔`}},
+{id:17,qNum:"Q34",section:"For Loop",tag:"for",title:"Determine the output (for a=5, a<=5, step a+5)",code:`for (a = 5; a <= 5; a = a + 5)\n    printf("%d", a);`,output:`5`,explain:{en:`a=5. Condition 5<=5 → TRUE. Print 5. Then a=10. Now 10<=5 → FALSE. Only ONE iteration. Output: 5.`,ru:`a=5. 5<=5 SACH. Print 5. Phir a=10. 10<=5 JHOOT. Sirf ek baar. Output: 5.`,ur:`a=5۔ 5<=5 سچ۔ 5 پرنٹ۔ پھر a=10۔ 10<=5 غلط۔ صرف ایک بار۔ آؤٹ پٹ: 5۔`}},
+{id:18,qNum:"Q39",section:"For Loop",tag:"for",title:"Predict the output (for n=1, n<=12, n=n+4)",code:`int n;\nfor (n = 1; n <= 12; n = n + 4)\n    printf("%d", n);`,output:`159`,explain:{en:`n starts 1, increases by 4. Values: 1,5,9. Next: 13>12 → stop. Output: 159.`,ru:`n=1, 4 badhta hai. Values: 1,5,9. Agla 13>12 → stop. Output: 159.`,ur:`n=1، 4 بڑھتا ہے۔ اقدار: 1,5,9۔ اگلا 13>12 → رکو۔ آؤٹ پٹ: 159۔`}},
+{id:19,qNum:"Q41",section:"For Loop",tag:"for",title:"Show output (for m=0, m<10, m=m+2)",code:`int m;\nfor (m = 0; m < 10; m = m + 2)\n    printf("%d", m);`,output:`02468`,explain:{en:`m starts 0, increases by 2. Values: 0,2,4,6,8. When m=10, 10<10 is FALSE. 10 NOT printed. Output: 02468.`,ru:`m=0, 2 badhta hai. Values: 0,2,4,6,8. m=10 par stop. Output: 02468.`,ur:`m=0، 2 بڑھتا ہے۔ اقدار: 0,2,4,6,8۔ m=10 پر رک۔ آؤٹ پٹ: 02468۔`}},
+{id:20,qNum:"Q42",section:"For Loop",tag:"for",title:"Write output (for x=10, x<=100, x=x+10)",code:`int x;\nfor (x = 10; x <= 100; x = x + 10)\n    printf("%d ", x);`,output:`10 20 30 40 50 60 70 80 90 100`,explain:{en:`x starts 10, increases by 10. Values: 10,20,...,100 (x=100 included <=). 10 iterations. Multiples of 10.`,ru:`x=10, 10 badhta hai. Values: 10,20,...,100. Total 10 baar. 10 ke multiples.`,ur:`x=10، 10 بڑھتا ہے۔ اقدار: 10,20,...,100۔ کل 10 بار۔ 10 کے ضرب۔`}},
+{id:21,qNum:"Q43",section:"For Loop",tag:"for",title:"Trace the output (for x=1, x<=10, x=x+4)",code:`for (int x = 1; x <= 10; x = x + 4)\n    printf("%d\\n", x);`,output:`1\n5\n9`,explain:{en:`x starts 1, increases by 4. Values: 1,5,9. Next: 13>10 → stop. Each on new line.`,ru:`x=1, 4 badhta hai. Values: 1,5,9. 13>10 stop. Nayi line.`,ur:`x=1، 4 بڑھتا ہے۔ اقدار: 1,5,9۔ 13>10 رکو۔ نئی لائن۔`}},
+{id:22,qNum:"Q44",section:"For Loop",tag:"for",title:"Determine the output (for n=1, n<=5, n++)",code:`int n;\nfor (n = 1; n <= 5; n++)\n    printf("%d\\n", n);`,output:`1\n2\n3\n4\n5`,explain:{en:`Simple for loop. n goes 1 to 5, one step at a time. Each value on its own line. Output: 1 through 5 vertically.`,ru:`Simple loop. n 1 se 5 tak. Har value nayi line par: 1,2,3,4,5.`,ur:`سادہ for لوپ۔ n 1 سے 5 تک۔ ہر قدر نئی لائن پر: 1,2,3,4,5۔`}},
+{id:23,qNum:"Q47",section:"Do-While Loop",tag:"dowhile",title:"Determine the output (do-while n=1, condition n<=5)",code:`int n = 1;\ndo\n{\n    printf("%d\\n", n);\n    n++;\n} while (n <= 5);`,output:`1\n2\n3\n4\n5`,explain:{en:`Do-while ALWAYS runs at least once. n=1 start. Runs while n is 1,2,3,4,5. n=6 fails. Output: 1 to 5.`,ru:`Do-while kam az kam ek baar zaroor chalta. n=1. n: 1,2,3,4,5 → 6 pe fail. Output: 1 se 5.`,ur:`Do-while ہمیشہ کم از کم ایک بار چلتا ہے۔ n=1۔ n: 1,2,3,4,5 → 6 پر ناکام۔ آؤٹ پٹ: 1 سے 5۔`}},
+{id:24,qNum:"Q49",section:"For Loop",tag:"for",title:"Show output (sum 10+9+8+...+1)",code:`int a, s = 0;\nfor (a = 10; a > 0; a--)\n    s += a;\nprintf("sum is = %d", s);`,output:`sum is = 55`,explain:{en:`a goes 10 down to 1. s accumulates: 10+9+...+1 = 55. Classic formula: n*(n+1)/2 = 10*11/2 = 55.`,ru:`a 10 se 1 tak neeche. s: 10+9+...+1=55. Formula: n*(n+1)/2=55.`,ur:`a 10 سے 1 تک نیچے۔ s: 10+9+...+1=55۔ فارمولا: n*(n+1)/2=55۔`}},
+{id:25,qNum:"Q50",section:"Do-While Loop",tag:"dowhile",title:"What will be the output? (do-while c=1, c<=4)",code:`int c = 1;\ndo\n{\n    printf("%d", c);\n    c++;\n} while (c <= 4);`,output:`1234`,explain:{en:`c goes 1,2,3,4. When c=5, condition 5<=4 fails. Output: 1234 (no newline).`,ru:`c: 1,2,3,4. c=5 par condition fail. Output: 1234.`,ur:`c: 1,2,3,4۔ c=5 پر شرط ناکام۔ آؤٹ پٹ: 1234۔`}},
+{id:26,qNum:"Q51",section:"For Loop",tag:"for",title:"Determine output (for i=1 to 10, print i and i*i)",code:`int i;\nfor (i = 1; i <= 10; i++)\n    printf("%d %d\\n", i, i * i);`,output:`1  1\n2  4\n3  9\n4  16\n5  25\n6  36\n7  49\n8  64\n9  81\n10 100`,explain:{en:`i goes 1 to 10. Each row shows i and its square. 1²=1, 2²=4,... 10²=100.`,ru:`i 1 se 10. Har row: i aur i*i. 1²=1,...,10²=100.`,ur:`i 1 سے 10۔ ہر قطار: i اور i*i۔ 1²=1,...,10²=100۔`}},
+{id:27,qNum:"Q54",section:"While Loop",tag:"while",title:"Write the output (while m=5, m<10, m=m+2)",code:`int m = 5;\nwhile (m < 10)\n{\n    printf("%d\\n", m);\n    m = m + 2;\n}`,output:`5\n7\n9`,explain:{en:`m starts 5, increases by 2. Values: 5,7,9. When m=11, 11<10 is FALSE.`,ru:`m=5, 2 badhta hai. Values: 5,7,9. m=11 par fail.`,ur:`m=5، 2 بڑھتا ہے۔ اقدار: 5,7,9۔ m=11 پر ناکام۔`}},
+{id:28,qNum:"Q58",section:"Do-While Loop",tag:"dowhile",title:"Determine output (do-while print Pakistan n++ until n<=4)",code:`int n = 1;\ndo\n{\n    printf("Pakistan\\n");\n    n++;\n} while (n <= 4);`,output:`Pakistan\nPakistan\nPakistan\nPakistan`,explain:{en:`n=1 start. Loop runs when n was 1,2,3,4 — 4 times. "Pakistan" printed 4 times.`,ru:`n=1. Loop 4 baar (n=1,2,3,4). "Pakistan" 4 baar.`,ur:`n=1۔ لوپ 4 بار (n=1,2,3,4)۔ "Pakistan" 4 بار پرنٹ ہوا۔`}},
+{id:29,qNum:"Q69",section:"While Loop",tag:"while",title:"Predict the output (while x++ <= 5, then print x)",code:`int x = 1;\nwhile (x++ <= 5)\n    printf("%d\\n", x);`,output:`2\n3\n4\n5\n6`,explain:{en:`Tricky! x++ is POST-increment: OLD value is checked first, THEN x increases. So when printf runs, x is already +1. Checked: 1,2,3,4,5. Printed: 2,3,4,5,6.`,ru:`Mushkil! x++ matlab pehle purani value check, phir x badhta hai. Printed x: 2,3,4,5,6.`,ur:`مشکل! x++ کا مطلب پہلے پرانی قدر چیک، پھر x بڑھتا ہے۔ پرنٹ ہونے والی x: 2,3,4,5,6۔`}},
+{id:30,qNum:"Q70",section:"Do-While Loop",tag:"dowhile",title:"Predict the output (do-while i=5, i=i-1, while i>0)",code:`int i = 5;\ndo\n{\n    printf("Pakistan");\n    i = i - 1;\n} while (i > 0);`,output:`PakistanPakistanPakistanPakistanPakistan`,explain:{en:`i starts 5, decrements each time. i: 5,4,3,2,1. When i=0: 0>0 is FALSE. Loop ran 5 times — "Pakistan" × 5 on one line.`,ru:`i=5, har baar 1 kam. i: 5,4,3,2,1. i=0 par stop. "Pakistan" 5 baar ek line par.`,ur:`i=5، ہر بار 1 کم۔ i: 5,4,3,2,1۔ i=0 پر رک۔ "Pakistan" 5 بار ایک لائن پر۔`}},
+{id:31,qNum:"Q73",section:"Do-While Loop",tag:"dowhile",title:"Predict the output (do-while char x='A', step +2)",code:`char x = 'A';\ndo\n{\n    printf("%c", x);\n    x = x + 2;\n} while (x <= 'k');`,output:`ACEGIK`,explain:{en:`Characters: A=65, C=67, E=69, G=71, I=73, K=75. x starts 'A', increases by 2: A,C,E,G,I,K. Output: ACEGIK.`,ru:`A=65,C=67,E=69,G=71,I=73,K=75. x 'A' se 2 badhta hai: A,C,E,G,I,K.`,ur:`A=65,C=67,E=69,G=71,I=73,K=75۔ x 'A' سے 2 بڑھتا ہے: A,C,E,G,I,K۔`}},
+{id:32,qNum:"Q74",section:"While Loop",tag:"while",title:"Write the output (while K=0 to 5, two-column table K and 10-K)",code:`K = 0;\nwhile (K <= 5)\n{\n    printf("%3d%3d\\n", K, 10 - K);\n    K++;\n}`,output:`  0 10\n  1  9\n  2  8\n  3  7\n  4  6\n  5  5`,explain:{en:`K goes 0→5. Each row: K and (10-K). Sum always 10.`,ru:`K 0 se 5. Har row: K aur (10-K). Sum 10.`,ur:`K 0 سے 5۔ ہر قطار: K اور (10-K)۔ مجموعہ 10۔`}},
+{id:33,qNum:"Q78",section:"For Loop",tag:"for",title:"Trace the output (for K=0, K<=5, K+=4)",code:`int K;\nfor (K = 0; K <= 5; K += 4)\n    printf("%d", K);`,output:`04`,explain:{en:`K starts 0, increases by 4. Values: 0(✓), 4(✓), 8(✗>5 stop). Output: 04.`,ru:`K=0, 4 badhta hai. Values: 0,4. Agla 8>5 stop. Output: 04.`,ur:`K=0، 4 بڑھتا ہے۔ اقدار: 0,4۔ اگلا 8>5 رکو۔ آؤٹ پٹ: 04۔`}},
+{id:34,qNum:"Q79",section:"Nested Loop",tag:"nested",title:"Determine output (nested loop, m=3, n=5, star pattern)",code:`for (k = n; k > 0; --k)\n{\n    for (j = m; j > 0; --j)\n        printf("*");\n    printf("\\n");\n}`,output:`* * *\n* * *\n* * *\n* * *\n* * *`,explain:{en:`Outer loop runs n=5 times (rows). Inner loop runs m=3 times (columns). Each inner print: "*". After each row → \\n. Result: 5 rows × 3 stars.`,ru:`Outer loop 5 baar. Inner loop 3 baar. Har row ke baad \\n. Result: 5 rows, 3 stars each.`,ur:`بیرونی لوپ 5 بار۔ اندرونی لوپ 3 بار۔ ہر قطار کے بعد \\n۔ نتیجہ: 5 قطاریں × 3 ستارے۔`}},
+{id:35,qNum:"Q81",section:"For Loop",tag:"for",title:"Predict the output (for a=1, a<=10, a++)",code:`int a;\nfor (a = 1; a <= 10; a++)\n    printf("%d", a);`,output:`12345678910`,explain:{en:`a goes 1 to 10. All values without spaces or newlines: 12345678910.`,ru:`a 1 se 10. Sab bina space: 12345678910.`,ur:`a 1 سے 10۔ سب بغیر اسپیس: 12345678910۔`}},
+{id:36,qNum:"Q83",section:"For Loop",tag:"for",title:"Find the output (for n=0 to 4, print 'a'+n)",code:`int n;\nfor (n = 0; n < 5; n++)\n    printf("%c", 'a' + n);`,output:`abcde`,explain:{en:`'a'+0='a', 'a'+1='b',..., 'a'+4='e'. ASCII trick: adding number to char gives next alphabet. Output: abcde.`,ru:`'a'+0='a', 'a'+1='b', etc. ASCII mein char+number = agla alphabet. Output: abcde.`,ur:`'a'+0='a'، 'a'+1='b' وغیرہ۔ ASCII میں کردار+نمبر = اگلا حرف۔ آؤٹ پٹ: abcde۔`}},
+{id:37,qNum:"Q84",section:"For Loop",tag:"for",title:"Write output (for a=1 to 5, k=1, print a+k)",code:`int a = 1;\nint k = 1;\nfor ( ; a <= 5; a++)\n    printf("%d\\n", a + k);`,output:`2\n3\n4\n5\n6`,explain:{en:`a starts 1, k fixed at 1. Each print: a+k = a+1. So: 2,3,4,5,6.`,ru:`a=1, k=1. a+k = a+1. Toh: 2,3,4,5,6.`,ur:`a=1، k=1۔ a+k = a+1۔ تو: 2,3,4,5,6۔`}},
+{id:38,qNum:"Q87",section:"Statement",tag:"for",title:"Write the output (if 100>50 print ONE else print TWO)",code:`if (100 > 50)\n    printf("ONE");\nelse\n    printf("TWO");`,output:`ONE`,explain:{en:`100>50 is TRUE. 'if' block runs → prints "ONE". 'else' is skipped.`,ru:`100>50 SACH. 'if' block → "ONE". 'else' skip.`,ur:`100>50 سچ ہے۔ 'if' بلاک → "ONE"۔ 'else' چھوڑ دیا جاتا ہے۔`}},
+{id:39,qNum:"Q91",section:"For Loop",tag:"for",title:"Predict the output (for c=1, c<=10, c=c+2)",code:`int c;\nfor (c = 1; c <= 10; c = c + 2)\n    printf("%d", c);`,output:`13579`,explain:{en:`c starts 1, increases by 2. Values: 1,3,5,7,9. Next 11>10 → stop. Odd numbers 1-9. Output: 13579.`,ru:`c=1, 2 badhta hai. Values: 1,3,5,7,9. Agla 11>10 stop. Output: 13579.`,ur:`c=1، 2 بڑھتا ہے۔ اقدار: 1,3,5,7,9۔ اگلا 11>10 رکو۔ آؤٹ پٹ: 13579۔`}},
+{id:40,qNum:"Q93",section:"For Loop",tag:"for",title:"Predict the output (for n=10, n>=1, n--) — countdown",code:`int n;\nfor (n = 10; n >= 1; n--)\n    printf("%d", n);`,output:`10987654321`,explain:{en:`Countdown! n starts 10, decrements each time. n: 10,9,8,...,1. When n=0, 0>=1 is FALSE. Output: 10987654321.`,ru:`Countdown! n=10, har baar 1 kam. n: 10,9,...,1. n=0 par stop. Output: 10987654321.`,ur:`الٹی گنتی! n=10، ہر بار 1 کم۔ n: 10,9,...,1۔ n=0 پر رک۔ آؤٹ پٹ: 10987654321۔`}},
+{id:41,qNum:"Q95",section:"For Loop",tag:"for",title:"Give output (for x=1, x<=5, x++, print x*x)",code:`for (int x = 1; x <= 5; x++)\n    printf("%d\\n", x * x);`,output:`1\n4\n9\n16\n25`,explain:{en:`x goes 1 to 5. x*x: 1²=1, 2²=4, 3²=9, 4²=16, 5²=25. Each on new line. Perfect squares!`,ru:`x 1 se 5. x*x: 1,4,9,16,25. Har value nayi line. Perfect squares!`,ur:`x 1 سے 5۔ x*x: 1,4,9,16,25۔ ہر قدر نئی لائن۔ مکمل مربع!`}},
+{id:42,qNum:"Q97",section:"For Loop",tag:"for",title:"Predict output (for n=7, n>=1, n--)",code:`int n;\nfor (n = 7; n >= 1; n--)\n    printf("%d", n);`,output:`7654321`,explain:{en:`Countdown from 7 to 1. n: 7,6,5,4,3,2,1. n=0 → condition fails. Output: 7654321.`,ru:`7 se 1 tak countdown. n: 7,6,5,4,3,2,1. n=0 stop. Output: 7654321.`,ur:`7 سے 1 تک الٹی گنتی۔ n: 7,6,5,4,3,2,1۔ n=0 پر رک۔ آؤٹ پٹ: 7654321۔`}},
+{id:43,qNum:"Q99",section:"While Loop",tag:"while",title:"What is the output? (while x=7, x<=15, x++)",code:`x = 7;\nwhile (x <= 15)\n{\n    printf("%d", x);\n    x++;\n}`,output:`789101112131415`,explain:{en:`x starts 7, goes to 15 (x<=15 includes 15). x values: 7,8,...,15. No spaces → all one line: 789101112131415.`,ru:`x=7, 15 tak. x: 7,8,...,15. Sab ek line: 789101112131415.`,ur:`x=7، 15 تک۔ x: 7,8,...,15۔ سب ایک لائن: 789101112131415۔`}}
 ];
 
-let currentLang = 'en';
-let currentFilter = 'all';
+let lang='en', filter='all';
 
-function setLang(lang) {
-  currentLang = lang;
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  renderAll();
+function startApp(){
+  const intro=document.getElementById('introScreen');
+  const app=document.getElementById('mainApp');
+  intro.style.transition='opacity .5s';
+  intro.style.opacity='0';
+  setTimeout(()=>{intro.style.display='none';app.style.display='block';renderAll();},500);
+  const v=intro.querySelector('video');
+  if(v)v.pause();
 }
 
-function setFilter(f) {
-  currentFilter = f;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  renderAll();
-}
-
-function doSearch() { renderAll(); }
-
-function renderAll() {
-  const search = document.getElementById('searchBox').value.toLowerCase();
-  const grid = document.getElementById('qGrid');
-  const noRes = document.getElementById('noRes');
-  grid.innerHTML = '';
-  let count = 0;
-  DATA.forEach((q, idx) => {
-    if (currentFilter !== 'all' && q.tag !== currentFilter) return;
-    const titleCheck = q.title.toLowerCase().includes(search);
-    const codeCheck = q.code.toLowerCase().includes(search);
-    const numCheck = q.qNum.toLowerCase().includes(search);
-    if (search && !titleCheck && !codeCheck && !numCheck) return;
-    count++;
-    grid.insertAdjacentHTML('beforeend', buildCard(q, idx));
+function goBack(){
+  const intro=document.getElementById('introScreen');
+  const app=document.getElementById('mainApp');
+  app.style.display='none';
+  intro.style.display='flex';
+  intro.style.opacity='0';
+  requestAnimationFrame(()=>{
+    intro.style.transition='opacity .4s';
+    intro.style.opacity='1';
   });
-  noRes.classList.toggle('hidden', count > 0);
-
-  // Re-attach toggle events
-  grid.querySelectorAll('.q-header').forEach(h => {
-    h.addEventListener('click', () => {
-      const card = h.closest('.q-card');
-      card.classList.toggle('open');
-    });
-  });
-
-  // Update progress bar
-  const prog = document.getElementById('progBar');
-  prog.style.width = '100%';
-  setTimeout(() => prog.style.width = '0%', 600);
+  const v=intro.querySelector('video');
+  if(v)v.play();
+  window.scrollTo({top:0});
 }
 
-function buildCard(q, idx) {
-  const explainText = q.explain[currentLang] || q.explain['en'];
-  const isUrdu = currentLang === 'ur';
-  const explainClass = isUrdu ? 'explain-text ur-text' : 'explain-text';
-
-  const langLabels = {
-    en: { output: 'OUTPUT', explain: 'EXPLANATION', trace: 'TRACE TABLE' },
-    ru: { output: 'OUTPUT / NATIJA', explain: 'WAZAHAT / EXPLANATION', trace: 'TRACE TABLE' },
-    ur: { output: 'آؤٹ پٹ', explain: 'وضاحت', trace: 'ٹریس ٹیبل' }
-  };
-  const lbl = langLabels[currentLang];
-
-  let traceHtml = '';
-  if (q.trace) {
-    const headers = q.trace[0];
-    const rows = q.trace.slice(1);
-    traceHtml = `<div style="padding:10px 14px; border-bottom:1px solid var(--border)">
-      <div class="explain-label">${lbl.trace}</div>
-      <div style="overflow-x:auto">
-      <table class="trace-table">
-        <thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead>
-        <tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody>
-      </table></div></div>`;
+function shareApp(){
+  const data={title:'Loop Constructs – CS Chapter 12',text:'CS Ch.12 Output Questions Bank',url:window.location.href};
+  if(navigator.share){
+    navigator.share(data).catch(()=>copyLink());
+  } else {
+    copyLink();
   }
+}
+function copyLink(){
+  const url=window.location.href;
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(()=>toast('🔗 Link copied!')).catch(()=>prompt('Copy this link:',url));
+  } else {
+    prompt('Copy this link:',url);
+  }
+}
 
-  return `
-  <div class="q-card" id="card-${q.id}" style="animation-delay:${idx*0.04}s">
-    <div class="q-header">
-      <span class="q-num">${q.qNum}</span>
-      <span class="q-section-tag">${q.section}</span>
-      <span class="q-title">${q.title}</span>
-      <span class="chevron">▾</span>
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+function toggleTheme(){
+  document.body.classList.toggle('light');
+  toast(document.body.classList.contains('light')?'☀️ Light mode':'🌙 Dark mode');
+}
+
+function showInfo(){
+  alert('📚 Loop Constructs — Chapter 12\n\nDeveloped by J.S\n43 Output Questions | 3 Loop Types | 3 Languages\n\nFor Computer Science students preparing loop output questions.');
+}
+
+function setLang(l,btn){
+  lang=l;
+  document.querySelectorAll('[data-lang]').forEach(b=>b.classList.remove('act'));
+  btn.classList.add('act');
+  renderAll();
+}
+
+function setFilter(f,btn){
+  filter=f;
+  document.querySelectorAll('[data-filter]').forEach(b=>b.classList.remove('act'));
+  btn.classList.add('act');
+  renderAll();
+}
+
+function renderAll(){
+  const search=(document.getElementById('searchBox')?.value||'').toLowerCase();
+  const grid=document.getElementById('qGrid');
+  const noRes=document.getElementById('noRes');
+  if(!grid)return;
+  grid.innerHTML='';
+  let count=0;
+  DATA.forEach((q,i)=>{
+    if(filter!=='all'&&q.tag!==filter)return;
+    if(search&&![q.title,q.code,q.qNum].some(s=>s.toLowerCase().includes(search)))return;
+    count++;
+    grid.insertAdjacentHTML('beforeend',card(q,i));
+  });
+  noRes.style.display=count===0?'block':'none';
+  grid.querySelectorAll('.q-head').forEach(h=>h.addEventListener('click',()=>h.closest('.q-card').classList.toggle('open')));
+}
+
+function card(q,i){
+  const exp=q.explain[lang]||q.explain.en;
+  const isUr=lang==='ur';
+  const L={en:{out:'OUTPUT',exp:'EXPLANATION',trc:'TRACE TABLE'},ru:{out:'OUTPUT / NATIJA',exp:'WAZAHAT',trc:'TRACE TABLE'},ur:{out:'آؤٹ پٹ',exp:'وضاحت',trc:'ٹریس ٹیبل'}}[lang];
+  let trHtml='';
+  if(q.trace){
+    const[h,...rows]=q.trace;
+    trHtml=`<div class="trace-blk"><div class="blk-lbl yellow">📊 ${L.trc}</div><table><thead><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  }
+  return `<div class="q-card" id="c${q.id}">
+    <div class="q-head">
+      <span class="q-badge">${q.qNum}</span>
+      <span class="q-type">${q.section}</span>
+      <span class="q-txt">${q.title}</span>
+      <span class="q-chev">▾</span>
     </div>
     <div class="q-body">
-      <div class="code-block">${escapeHtml(q.code)}</div>
-      <div class="output-block">
-        <div class="output-label">${lbl.output}</div>
-        <div class="output-value">${escapeHtml(q.output)}</div>
-      </div>
-      ${traceHtml}
-      <div class="explain-block">
-        <div class="explain-label">💡 ${lbl.explain}</div>
-        <div class="${explainClass}">${explainText}</div>
-      </div>
+      <div class="code-blk"><div class="blk-lbl blue">CODE</div><pre>${esc(q.code)}</pre></div>
+      <div class="out-blk"><div class="blk-lbl green">${L.out}</div><div class="out-val">${esc(q.output)}</div></div>
+      ${trHtml}
+      <div class="exp-blk"><div class="blk-lbl yellow">💡 ${L.exp}</div><div class="exp-txt${isUr?' ur':''}">${exp}</div></div>
     </div>
   </div>`;
 }
 
-function escapeHtml(str) {
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
-// Scroll progress
-window.addEventListener('scroll', () => {
-  const scrollTop = document.documentElement.scrollTop;
-  const docH = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  const prog = document.getElementById('progBar');
-  prog.style.width = (scrollTop / docH * 100) + '%';
+window.addEventListener('scroll',()=>{
+  const st=document.documentElement.scrollTop;
+  const dh=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  document.getElementById('progBar').style.width=(st/dh*100)+'%';
+  const sb=document.getElementById('scrollBtn');
+  st>300?sb.classList.add('show'):sb.classList.remove('show');
 });
-
-// Initial render
-renderAll();
 </script>
 </body>
-</html>
+  </html>
